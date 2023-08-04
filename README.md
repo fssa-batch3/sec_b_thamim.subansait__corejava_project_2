@@ -2,7 +2,7 @@
 
 ## Database Design
 
-- [x] Create an ER diagram of the database- [ ![\] ](https://iili.io/HZmKMNI.png)Write Create table scripts [script](path/to/sql/file)
+- [x] Create an ER diagram of the database- [ ![\] ](https://iili.io/HZmKMNI.png)Write Create table scripts [script](src\main\resources\db\migration\v1__create_users.sql)
 
 ## Project Setup
 
