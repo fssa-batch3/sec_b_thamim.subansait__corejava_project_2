@@ -1,8 +1,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>in.fwsa</groupId>
-	<artifactId>demoapp-core</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<groupId>in.fssa</groupId>
+	<artifactId>doboo</artifactId>
+	<version>1.0.0</version>
 
 	
 	<properties>
@@ -10,7 +10,7 @@
 		<maven.compiler.source>17</maven.compiler.source>
 		<maven.compiler.target>17</maven.compiler.target>
 
-		<sonar.organization>suryapugal22</sonar.organization>
+		<sonar.organization>fssa_batch3</sonar.organization>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 	</properties>
 
@@ -36,6 +36,12 @@
 			<artifactId>junit-jupiter-engine</artifactId>
 			<version>5.7.0</version>
 			<scope>test</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>io.github.cdimascio</groupId>
+			<artifactId>java-dotenv</artifactId>
+			<version>5.2.2</version>
 		</dependency>
 
 	</dependencies>
@@ -93,7 +99,7 @@
 					<artifactId>exec-maven-plugin</artifactId>
 					<version>3.1.0</version>
 					<configuration>
-						<mainClass>com.fssa.learnJava.project.taskapp.App</mainClass>
+						<mainClass>in.fssa.doboo.App</mainClass>
 					</configuration>
 				</plugin>
 

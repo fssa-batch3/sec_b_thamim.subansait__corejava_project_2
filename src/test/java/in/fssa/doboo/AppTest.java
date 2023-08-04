@@ -1,4 +1,4 @@
-package in.fwsa.demoapp;
+package in.fssa.doboo;
 
 public class AppTest {
 
