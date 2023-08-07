@@ -9,8 +9,9 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>17</maven.compiler.source>
 		<maven.compiler.target>17</maven.compiler.target>
-
-		<sonar.organization>fssa_batch3</sonar.organization>
+		
+		<sonar.projectKey>fssa-batch3_sec_b_thamim.subansait__corejava_project_2</sonar.projectKey>
+		<sonar.organization>fssa-batch3</sonar.organization>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 	</properties>
 
