@@ -5,6 +5,15 @@ public abstract class User implements Comparable<User> {
 	private String password;
 	private String artistName;
 	private String Dob;
+	private boolean isActive;
+	
+	public boolean isActive() {
+		return isActive;
+	}
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+
 	private int id;
 	
 	public int getId() {
