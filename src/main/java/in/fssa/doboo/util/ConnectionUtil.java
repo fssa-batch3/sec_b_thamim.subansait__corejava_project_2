@@ -14,7 +14,7 @@ public class ConnectionUtil {
 		
 		Dotenv env = Dotenv.load();
 		
-		String url = env.get("DATABASE_HOST");
+		String url = env.get("DATABASE_HOSTNAME");
 		String username = env.get("DATABASE_USERNAME");
 		String password = env.get("DATABASE_PASSWORD");
 

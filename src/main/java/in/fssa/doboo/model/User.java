@@ -1,10 +1,19 @@
 package in.fssa.doboo.model;
 public abstract class User implements Comparable<User> {
+	private int id;
 	private String name;
 	private String email;
 	private String password;
 	private String artistName;
 	private String Dob;
+	private String role;
+	public String getRole() {
+		return role;
+	}
+	public void setRole(String role) {
+		this.role = role;
+	}
+
 	private boolean isActive;
 	
 	public boolean isActive() {
@@ -14,8 +23,6 @@ public abstract class User implements Comparable<User> {
 		this.isActive = isActive;
 	}
 
-	private int id;
-	
 	public int getId() {
 		return id;
 	}
@@ -54,8 +61,8 @@ public abstract class User implements Comparable<User> {
 	}
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + ", artistName="
-				+ artistName + ", Dob=" + Dob + "]";
+		return "User [id = " + id + ", name = " + name + ", email = " + email + ", password = " + password + ", artistName = "
+				+ artistName + ", Dob = " + Dob +", role = "+role+ "]";
 	}
 	
 	@Override
@@ -73,6 +80,5 @@ public abstract class User implements Comparable<User> {
 		}
 		
 	}
-	
-	
+
 }
