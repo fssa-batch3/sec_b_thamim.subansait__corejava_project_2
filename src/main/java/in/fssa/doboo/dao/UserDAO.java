@@ -12,6 +12,8 @@ import in.fssa.doboo.util.ConnectionUtil;
 
 import in.fssa.doboo.model.User;
 import in.fssa.doboo.Interface.UserInterface;
+import in.fssa.doboo.exception.PersistanceException;
+import in.fssa.doboo.exception.ValidationException;
 
 public class UserDAO implements UserInterface {
 	
@@ -65,6 +67,31 @@ public class UserDAO implements UserInterface {
 
 
 	}
+	
+	// userEmial already exists then throw new exception
+	
+			public void emailExists(String email) throws Exception{
+				Connection conn = null;
+				PreparedStatement pre = null;
+				ResultSet rs = null;
+
+				try {
+					String query = "Select * From users Where email = ? AND is_active = 1";
+					conn = ConnectionUtil.getConnection();
+					pre = conn.prepareStatement(query);
+					pre.setString(1, email);
+					rs = pre.executeQuery();
+					if (rs.next()) {
+						throw new PersistanceException("Email already exists");
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+					System.out.println(e.getMessage());
+					throw new Exception();
+				} finally {
+					ConnectionUtil.close(conn, pre, rs);
+				}
+			}
 	
 	// create Method for user to ad record to the database.
 	

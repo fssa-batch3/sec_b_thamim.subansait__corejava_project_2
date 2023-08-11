@@ -93,10 +93,6 @@ public class UserValidator {
 			
 			StringUtil.rejectIfInvalidString(password, "Password");
 			
-			if(password.length()<8) {
-				throw new ValidationException("Password must contain atleast 8 characters");
-			}
-			
 			if (!Pattern.matches(PASSWORD_PATTERN, password)) {
 				throw new ValidationException("Password doesn't match the pattern");
 			}
@@ -104,31 +100,7 @@ public class UserValidator {
 		
 		}
 		
-	// userEmial already exists then throw new exception
-		
-		public static void emailExists(String email) throws ValidationException {
-			Connection conn = null;
-			PreparedStatement pre = null;
-			ResultSet rs = null;
-
-			try {
-				String query = "Select * From users Where email = ? AND is_active = 1";
-				conn = ConnectionUtil.getConnection();
-				pre = conn.prepareStatement(query);
-				pre.setString(1, email);
-				rs = pre.executeQuery();
-				if (rs.next()) {
-					throw new ValidationException("Email already exists");
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-				System.out.println(e.getMessage());
-				throw new RuntimeException();
-			} finally {
-				ConnectionUtil.close(conn, pre, rs);
-			}
-		}
-		
+	
 		// check userId is already exists ;
 		
 		public static void checkIdExists(int id) throws ValidationException {

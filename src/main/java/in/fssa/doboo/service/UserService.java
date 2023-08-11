@@ -30,9 +30,9 @@ public class UserService {
 	public void create(UserEntity newUser) throws Exception {
 		UserValidator.validate(newUser);
 
-		UserValidator.emailExists(newUser.getEmail());
-
+		
 		UserDAO userDAO = new UserDAO();
+		userDAO.emailExists(newUser.getEmail());
 		userDAO.create(newUser);
 	}
 
