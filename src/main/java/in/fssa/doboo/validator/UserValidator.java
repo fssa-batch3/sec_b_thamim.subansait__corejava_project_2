@@ -15,11 +15,18 @@ import in.fssa.doboo.util.ConnectionUtil;
 import in.fssa.doboo.util.StringUtil;
 
 public class UserValidator {
+	/**
+	 * 
+	 */
 	
 	private static final String NAME_PATTERN = "^[A-Za-z][A-Za-z\\\\s]*$";
 	private static final String EMAIL_PATTERN = "^[a-zA-Z0-9]+([a-zA-Z0-9_+\\-\\. ]*[a-zA-Z0-9]+)?@[a-zA-Z0-9]+([a-zA-Z0-9\\-\\.]*[a-zA-Z0-9])?\\.[a-zA-Z]{2,}$";
 	private static final String PASSWORD_PATTERN = "(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,}";
-	
+	/**
+	 * 
+	 * @param user
+	 * @throws ValidationException
+	 */
 	public static void validate(UserEntity user) throws ValidationException {
 		if (user == null) {
 			throw new ValidationException("Invalid user input");
@@ -52,6 +59,11 @@ public class UserValidator {
 	}
 		
 	// validate userName;
+	/**
+	 * 
+	 * @param name
+	 * @throws ValidationException
+	 */
 	
 		public static void validateName(String name) throws ValidationException {
 			
@@ -64,9 +76,17 @@ public class UserValidator {
 		}
 		
 	 // validate artistName;
+		/**
+		 * 
+		 * @param artistName
+		 * @throws ValidationException
+		 */
 	
 		public static void validateArtist(String artistName) throws ValidationException {
-			
+			if(artistName == null)
+			{
+				throw new ValidationException("Aritst Name cannot be null");
+			}
 			StringUtil.rejectIfInvalidString(artistName, "Name");
 			
 			if (artistName.length()>=24) {
@@ -76,6 +96,11 @@ public class UserValidator {
 		}
 		
 	// validate userEmail;
+		/**
+		 * 
+		 * @param email
+		 * @throws ValidationException
+		 */
 		
 		public static void validateEmail(String email) throws ValidationException {
 			
@@ -88,6 +113,11 @@ public class UserValidator {
 		}
 		
 	// validate userPassword;
+		/**
+		 * 
+		 * @param password
+		 * @throws ValidationException
+		 */
 		
 		public static void validatePassword(String password) throws ValidationException {
 			
@@ -102,6 +132,12 @@ public class UserValidator {
 		
 	
 		// check userId is already exists ;
+		/**
+		 * 
+		 * @param id
+		 * @throws ValidationException
+		 */
+		
 		
 		public static void checkIdExists(int id) throws ValidationException {
 			Connection conn = null;
@@ -127,6 +163,11 @@ public class UserValidator {
 		}
 		
 		// check email is already in database 
+		/**
+		 * 
+		 * @param email
+		 * @throws ValidationException
+		 */
 		
 		public static void checkEmailExists(String email) throws ValidationException {
 			Connection conn = null;

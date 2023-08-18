@@ -2,6 +2,12 @@ package in.fssa.doboo.util;
 
 import in.fssa.doboo.exception.ValidationException;
 public class StringUtil {
+	/**
+	 * 
+	 * @param input
+	 * @param inputName
+	 * @throws ValidationException
+	 */
 public static void rejectIfInvalidString(String input, String inputName) throws ValidationException{
 		
 		if(input==null || "".equals(input.trim())){
@@ -11,7 +17,11 @@ public static void rejectIfInvalidString(String input, String inputName) throws 
 		}
 		
 	}
-	
+	/**
+	 * 
+	 * @param input
+	 * @return
+	 */
 	public static boolean isValidString(String input) {
 		
 		if(input == null || "".equals(input.trim())) {
@@ -22,6 +32,11 @@ public static void rejectIfInvalidString(String input, String inputName) throws 
 		}
 		
 	}
+	/**
+	 * 
+	 * @param input
+	 * @return
+	 */
 	
 	public static boolean isInvalidString(String input) {
 		

@@ -8,8 +8,17 @@ public class Track implements Comparable<Track>  {
 	private int bpm;
 	private String daw;
 	private String genre;
+	private int price;
 	private String scale;
 	private boolean isActive;
+	public int getPrice() {
+		return price;
+	}
+
+	public void setPrice(int price) {
+		this.price = price;
+	}
+
 	public int getId() {
 		return id;
 	}
@@ -62,7 +71,7 @@ public class Track implements Comparable<Track>  {
 	@Override
 	public String toString() {
 		return "Track [id=" + id + ", TrackName=" + TrackName + ", TrackDetail=" + TrackDetail + ", bpm=" + bpm
-				+ ", daw=" + daw + ", genre=" + genre + ", scale=" + scale + ", isActive=" + isActive + "]";
+				+ ", daw=" + daw + ", genre=" + genre + ", scale=" + scale+", price=" + price+ ", isActive=" + isActive + "]";
 	}
 	
 	@Override

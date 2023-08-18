@@ -16,9 +16,9 @@ public class UserService {
 		this.userDao = new UserDAO(); // Initialize userDao instance in the constructor
 	}
 
-	/*
-	 * this method useful for to get all the user in the database
+	/**
 	 * 
+	 * @return
 	 */
 	public Set<UserEntity> getAll() {
 
@@ -26,7 +26,11 @@ public class UserService {
 
 		return userList;
 	}
-
+	/**
+	 * 
+	 * @param newUser
+	 * @throws Exception
+	 */
 	public void create(UserEntity newUser) throws Exception {
 		UserValidator.validate(newUser);
 
@@ -35,10 +39,18 @@ public class UserService {
 		userDAO.emailExists(newUser.getEmail());
 		userDAO.create(newUser);
 	}
+	/**
+	 * 
+	 * @param id
+	 * @param updateUser
+	 * @throws ValidationException
+	 */
 
 	public void update(int id, UserEntity updateUser) throws ValidationException {
 		UserValidator.validateId(id);
+		UserValidator.validate(updateUser);
 		UserValidator.checkIdExists(id);
+		UserValidator.validateArtist(updateUser.getArtistName());
 
 		if (updateUser.getName() != null) {
 			UserValidator.validateName(updateUser.getName());
@@ -51,19 +63,35 @@ public class UserService {
 
 		userDAO.update(id, updateUser);
 	}
-
-	public void deleate(int id) throws ValidationException {
+	/**
+	 * 
+	 * @param id
+	 * @throws ValidationException
+	 */
+	public void delete(int id) throws ValidationException {
 		UserValidator.validateId(id);
 		UserValidator.checkIdExists(id);
 		UserDAO userDAO = new UserDAO();
 		userDAO.delete(id);
 	}
-
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 * @throws ValidationException
+	 */
 	public UserEntity findById(int id) throws ValidationException {
 		UserValidator.validateId(id);
+		UserValidator.checkIdExists(id);
 		UserDAO userDao = new UserDAO();
 		return userDao.findById(id);
 	}
+	/**
+	 * 
+	 * @param email
+	 * @return
+	 * @throws ValidationException
+	 */
 
 	public UserEntity findByEmail(String email) throws ValidationException {
 		UserValidator.validateEmail(email);
@@ -71,7 +99,12 @@ public class UserService {
 		UserDAO userDao = new UserDAO();
 		return userDao.findByEmailId(email);
 	}
-
+/**
+ * 
+ * @param artistName
+ * @return
+ * @throws ValidationException
+ */
 	public UserEntity findByArtistName(String artistName) throws ValidationException {
 		StringUtil.rejectIfInvalidString(artistName,"artistName");
 		UserDAO userDao = new UserDAO();

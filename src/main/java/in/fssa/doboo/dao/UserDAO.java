@@ -29,6 +29,7 @@ public class UserDAO implements UserInterface {
 		
 	// Find all methods is used to find all user
 	
+	
 	public Set<UserEntity> findAll() throws RuntimeException {
 
 		Connection con = null;
@@ -68,7 +69,13 @@ public class UserDAO implements UserInterface {
 
 	}
 	
+	
 	// userEmial already exists then throw new exception
+	/**
+	 * 
+	 * @param email
+	 * @throws Exception
+	 */
 	
 			public void emailExists(String email) throws Exception{
 				Connection conn = null;
@@ -94,7 +101,9 @@ public class UserDAO implements UserInterface {
 			}
 	
 	// create Method for user to ad record to the database.
-	
+	/**
+	 * @param newUser object
+	 */
 	public void create(UserEntity newUser) {
 		Connection con = null;
 		PreparedStatement ps = null;
@@ -126,7 +135,9 @@ public class UserDAO implements UserInterface {
 		
 
 	}
-
+	/**
+	 * @param id,updatedUser
+	 */
 	public void update(int id,  UserEntity updatedUser) {
 		Connection con = null;
 		PreparedStatement ps = null;		
@@ -153,7 +164,9 @@ public class UserDAO implements UserInterface {
 		}
 		
 		}
-	
+	/**
+	 * @param id
+	 */
 
 	public void delete(int id) {
 		Connection con = null;
@@ -178,6 +191,10 @@ public class UserDAO implements UserInterface {
 			ConnectionUtil.close(con, ps);
 		}
 	}
+	/**
+	 * @param id 
+	 * @return user object
+	 */
 
 	public UserEntity findById(int id) {
 		
@@ -231,7 +248,12 @@ public class UserDAO implements UserInterface {
 	}
 	
 	
+	
 	@Override
+	/**
+	 * @param artist name
+	 * @return user
+	 */
 	public UserEntity findByArtistName(String artistName) {
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -264,6 +286,10 @@ public class UserDAO implements UserInterface {
 	}
 
 	@Override
+	/**
+	 * @param emial
+	 * @return user
+	 */
 	public UserEntity findByEmailId(String email) {
 		Connection conn = null;
 		PreparedStatement ps = null;

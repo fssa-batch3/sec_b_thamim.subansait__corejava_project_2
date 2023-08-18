@@ -32,6 +32,7 @@ public class ConnectionUtil {
 
 		return connection;
 	}
+	
 
 	public static void close(Connection connection, PreparedStatement ps) {
 		try {
@@ -45,6 +46,7 @@ public class ConnectionUtil {
 			e.printStackTrace();
 		}
 	}
+
 	public static void close(Connection connection, PreparedStatement ps,ResultSet res) {
 		try {
 			if(res!=null) {

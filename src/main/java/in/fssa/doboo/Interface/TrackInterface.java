@@ -6,9 +6,9 @@ import in.fssa.doboo.model.TrackEntity;
 
 public interface TrackInterface extends Base<TrackEntity> {
 	
-		public abstract Set<TrackEntity> findMatchTrackByName();
-		public abstract Set<TrackEntity> findTracksByAtirstName();
+		public abstract Set<TrackEntity> findMatchTrackByName(String TrackName);
+		public abstract Set<TrackEntity> findTracksByAtirstName(String ArtistName);
 		
-		public abstract void createTrack(TrackEntity track, int userId);
+		public abstract int createTrack(TrackEntity track, int userId);
 
 }

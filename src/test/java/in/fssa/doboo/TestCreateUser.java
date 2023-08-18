@@ -10,7 +10,7 @@ import in.fssa.doboo.exception.ValidationException;
 import in.fssa.doboo.model.UserEntity;
 
 import in.fssa.doboo.service.*;
-public class AppTest {
+public class TestCreateUser {
 	// Valid Input
 	
 	@Test
@@ -208,7 +208,6 @@ public class AppTest {
 		// User already exist
 		
 		@Test
-
 			public void testCreateUserEmailCheck() {
 				UserService userService = new UserService();
 				UserEntity newUser = new UserEntity();
