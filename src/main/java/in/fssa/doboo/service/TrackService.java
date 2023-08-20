@@ -5,6 +5,7 @@ import java.util.Set;
 
 import in.fssa.doboo.dao.TrackDAO;
 import in.fssa.doboo.dao.UserDAO;
+import in.fssa.doboo.exception.NoTrackFoundException;
 import in.fssa.doboo.exception.ValidationException;
 import in.fssa.doboo.model.TrackEntity;
 import in.fssa.doboo.model.UserEntity;
@@ -57,6 +58,9 @@ public class TrackService {
 		} catch (ValidationException e) {
 			throw new RuntimeException(e.getMessage());
 		}
+		 catch (RuntimeException e) {
+				throw new RuntimeException(e.getMessage());
+			}
 	}
 	/**
 	 * 
@@ -79,8 +83,8 @@ public class TrackService {
 
 //			Update details
 			trackDao.update(id, track);
-//			d = productPriceService.getDate(id);
-//			productPriceService.update(d, id, track.getPrice());
+			d = productPriceService.getDate(id);
+			productPriceService.update(d, id, track.getPrice());
 
 		} catch (ValidationException e) {
 			throw new RuntimeException(e.getMessage());
@@ -112,11 +116,16 @@ public class TrackService {
 	 */
 	    public Set<TrackEntity> findMatchTrackByName(String trackName) {
 	        try {
-	        	StringUtil.rejectIfInvalidString(trackName, trackName);
+	        	StringUtil.rejectIfInvalidString(trackName, "trackName");
 	            return trackDao.findMatchTrackByName(trackName);
-	        } catch (Exception e) {
+	        } 
+	        catch (ValidationException e) {
 	            e.printStackTrace();
-	            throw new RuntimeException("Error while finding tracks by name", e);
+	            throw new RuntimeException(e.getMessage());
+	        }
+	        catch (NoTrackFoundException e) {
+	            e.printStackTrace();
+	            throw new RuntimeException(e.getMessage());
 	        }
 	    }
 	    /**
@@ -127,11 +136,16 @@ public class TrackService {
 
 	    public Set<TrackEntity> findTracksByAtirstName(String artistName) {
 	        try {
-	        	StringUtil.rejectIfInvalidString(artistName, artistName);
+	        	StringUtil.rejectIfInvalidString(artistName, "artistName");
 	            return trackDao.findTracksByAtirstName(artistName);
-	        } catch (Exception e) {
+	        }
+	        catch (ValidationException e) {
 	            e.printStackTrace();
-	            throw new RuntimeException("Error while finding tracks by artist name", e);
+	            throw new RuntimeException(e.getMessage());
+	        }
+	        catch (NoTrackFoundException e) {
+	            e.printStackTrace();
+	            throw new RuntimeException(e.getMessage());
 	        }
 	    }
 	

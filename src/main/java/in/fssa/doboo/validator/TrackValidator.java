@@ -19,6 +19,9 @@ public class TrackValidator {
 
 //		Validations
 		StringUtil.rejectIfInvalidString(track.getTrackName(), "TrackName");
+		if(track.getPrice() <= 0 || track.getPrice() >6000) {
+			throw new ValidationException("price cannot be less than zero or greater than 6000");
+		}
 	}
 
 	/**
@@ -31,8 +34,8 @@ public class TrackValidator {
 		try {
 			if (id <= 0)
 				throw new ValidationException("id is less than zero");
+			
 			TrackDAO productDao = new TrackDAO();
-
 			productDao.checkIdExists(id);
 		} catch (RuntimeException e) {
 			throw new ValidationException(e.getMessage());

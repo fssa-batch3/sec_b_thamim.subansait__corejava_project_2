@@ -8,8 +8,11 @@ import java.sql.Statement;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.management.RuntimeErrorException;
 
 import in.fssa.doboo.Interface.TrackInterface;
+import in.fssa.doboo.exception.NoTrackFoundException;
+import in.fssa.doboo.exception.ValidationException;
 import in.fssa.doboo.model.TrackEntity;
 import in.fssa.doboo.util.ConnectionUtil;
 
@@ -89,44 +92,113 @@ public class TrackDAO implements TrackInterface {
 	 */
 
 	public int createTrack(TrackEntity track, int userId) {
-		Connection con = null;
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-		int generatedId = -1;
-		
-		try {
-			String query = "INSERT INTO tracks (track_name, track_detail, bpm, daw,genre,scale,user_id)VALUES (?,?,?,?,?,?,?)";
-			con = ConnectionUtil.getConnection();
-			
-			ps = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-			
-			ps.setString(1,track.getTrackName());
-			ps.setString(2,track.getTrackDetail());
-			ps.setInt(3,track.getBpm());
-			ps.setString(4,track.getDaw());
-			ps.setString(5,track.getGenre());
-			ps.setString(6,track.getScale());
-			ps.setInt(7,userId);
-			
-		   ps.executeUpdate();
-		   rs = ps.getGeneratedKeys();
-			if(rs.next()) {
-				generatedId = rs.getInt(1);
-			}else {
-			System.out.println("track is successfully created");
-			}
-			
-		}catch (SQLException e) {
-			e.printStackTrace();
-			System.out.println(e.getMessage());
-			throw new RuntimeException();
-		}
-		finally {
-			ConnectionUtil.close(con, ps, rs);
-		}
-		return generatedId;
-		
+	    Connection con = null;
+	    PreparedStatement ps = null;
+	    ResultSet rs = null;
+	    int generatedId = -1;
+
+	    try {
+	        // Check if the user exists in the users table
+	        if (!isUserExists(userId)) {
+	            throw new ValidationException("User with ID " + userId + " does not exist");
+	        }
+
+	        // Check if the track name is already uploaded by the same user
+	        if (isTrackNameExistsForUser(track.getTrackName(), userId)) {
+	            throw new ValidationException("Track name " + track.getTrackName() + " already exists for the user");
+	        }
+
+	        String query = "INSERT INTO tracks (track_name, track_detail, bpm, daw, genre, scale, user_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
+	        con = ConnectionUtil.getConnection();
+
+	        ps = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+
+	        ps.setString(1, track.getTrackName());
+	        ps.setString(2, track.getTrackDetail());
+	        ps.setInt(3, track.getBpm());
+	        ps.setString(4, track.getDaw());
+	        ps.setString(5, track.getGenre());
+	        ps.setString(6, track.getScale());
+	        ps.setInt(7, userId);
+
+	        ps.executeUpdate();
+	        rs = ps.getGeneratedKeys();
+	        if (rs.next()) {
+	            generatedId = rs.getInt(1);
+	        } else {
+	            System.out.println("Track is successfully created");
+	        }
+
+	    } catch (ValidationException e) {
+	        e.printStackTrace();
+	        System.out.println(e.getMessage());
+	        throw new RuntimeException(e.getMessage());
+	    }
+	    catch (SQLException e) {
+	        e.printStackTrace();
+	        System.out.println(e.getMessage());
+	        throw new RuntimeException();
+	    } 
+	    
+	    finally {
+	        ConnectionUtil.close(con, ps, rs);
+	    }
+	    return generatedId;
 	}
+
+	// Method to check if a user exists in the users table
+	private boolean isUserExists(int userId) {
+	    Connection con = null;
+	    PreparedStatement ps = null;
+	    ResultSet rs = null;
+
+	    try {
+	        String query = "SELECT EXISTS (SELECT 1 FROM users WHERE id = ?)";
+	        con = ConnectionUtil.getConnection();
+	        ps = con.prepareStatement(query);
+	        ps.setInt(1, userId);
+	        rs = ps.executeQuery();
+
+	        if (rs.next()) {
+	            return rs.getBoolean(1); // Returns true if user exists, false if not
+	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	        ConnectionUtil.close(con, ps, rs);
+	    }
+
+	    return false; // Default to false if an exception occurred
+	}
+
+	// Method to check if a track name exists for the given user
+	private boolean isTrackNameExistsForUser(String trackName, int userId) {
+	    Connection con = null;
+	    PreparedStatement ps = null;
+	    ResultSet rs = null;
+
+	    try {
+	        String query = "SELECT EXISTS (SELECT 1 FROM tracks WHERE track_name = ? AND user_id = ?)";
+	        con = ConnectionUtil.getConnection();
+	        ps = con.prepareStatement(query);
+	        ps.setString(1, trackName);
+	        ps.setInt(2, userId);
+	        rs = ps.executeQuery();
+
+	        if (rs.next()) {
+	            return rs.getBoolean(1); // Returns true if track name exists for the user, false if not
+	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	        ConnectionUtil.close(con, ps, rs);
+	    }
+
+	    return false; // Default to false if an exception occurred
+	}
+
 
 	@Override
 	/**
@@ -220,7 +292,7 @@ public class TrackDAO implements TrackInterface {
 	        rs = ps.executeQuery();
 
 	        while (rs.next()) {
-	            TrackEntity track = new TrackEntity(); // Instantiate a new TrackEntity object in each iteration
+	            TrackEntity track = new TrackEntity();
 	            track.setId(rs.getInt("id"));
 	            track.setTrackName(rs.getString("track_name"));
 	            track.setTrackDetail(rs.getString("track_detail"));
@@ -232,14 +304,19 @@ public class TrackDAO implements TrackInterface {
 	            tracks.add(track);
 	        }
 
+	        if (tracks.isEmpty()) {
+	            throw new NoTrackFoundException("No track has been found with the given name");
+	        }
+
 	    } catch (Exception e) {
 	        e.printStackTrace();
-	        throw new RuntimeException(e); // Throw the original exception
+	        throw new RuntimeException(e.getMessage());
 	    } finally {
 	        ConnectionUtil.close(con, ps, rs);
 	    }
 	    return tracks;
 	}
+
 
 
 	@Override
@@ -276,10 +353,13 @@ public class TrackDAO implements TrackInterface {
 
 	            tracks.add(track);
 	        }
+	        if (tracks.isEmpty()) {
+	            throw new NoTrackFoundException("No tracks found for the artist");
+	        }
 
 	    } catch (Exception e) {
 	        e.printStackTrace();
-	        throw new RuntimeException(e);
+	        throw new RuntimeException(e.getMessage());
 	    } finally {
 	        ConnectionUtil.close(con, ps, rs);
 	    }

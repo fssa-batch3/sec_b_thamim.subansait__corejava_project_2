@@ -53,4 +53,16 @@ public class TrackPriceService {
 		return d;
 	}
 	
+public void update(Timestamp uDate, int trackId, int price) throws ValidationException, RuntimeException {
+		
+		try {
+			TrackValidator.isIdValid(trackId);	
+			TrackPriceDAO trackPriceDao = new TrackPriceDAO();
+			trackPriceDao.update(uDate, trackId);
+			trackPriceDao.createTrackPrice(trackId,price,uDate);
+				
+		}catch(ValidationException e) {
+			throw new RuntimeException(e.getMessage());	
+		}
+	}
 }
