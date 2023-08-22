@@ -16,7 +16,7 @@ public class TestDeleteuser {
 		UserService userService = new UserService();
 
 		assertDoesNotThrow(() -> {
-			userService.delete(3);
+			userService.delete(1);
 		});
 	}
 
@@ -40,7 +40,7 @@ public class TestDeleteuser {
 
 		UserService userService = new UserService();
 		Exception exception = assertThrows(ValidationException.class, () -> {
-			userService.delete(10);
+			userService.delete(100);
 		});
 
 		String expectedMessage = "Id doesn't exist";

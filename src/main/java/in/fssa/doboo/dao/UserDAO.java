@@ -30,7 +30,7 @@ public class UserDAO implements UserInterface {
 	// Find all methods is used to find all user
 	
 	
-	public Set<UserEntity> findAll() throws RuntimeException {
+	public Set<UserEntity> findAll() throws PersistanceException  {
 
 		Connection con = null;
 		PreparedStatement ps = null;
@@ -60,7 +60,7 @@ public class UserDAO implements UserInterface {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-			throw new RuntimeException();
+			throw new PersistanceException(e.getMessage());
 		} finally {
 			ConnectionUtil.close(con, ps, rs);
 		}
@@ -77,7 +77,7 @@ public class UserDAO implements UserInterface {
 	 * @throws Exception
 	 */
 	
-			public void emailExists(String email) throws Exception{
+			public void emailExists(String email) throws PersistanceException{
 				Connection conn = null;
 				PreparedStatement pre = null;
 				ResultSet rs = null;
@@ -94,7 +94,7 @@ public class UserDAO implements UserInterface {
 				} catch (SQLException e) {
 					e.printStackTrace();
 					System.out.println(e.getMessage());
-					throw new Exception();
+					throw new PersistanceException(e.getMessage());
 				} finally {
 					ConnectionUtil.close(conn, pre, rs);
 				}
@@ -103,8 +103,9 @@ public class UserDAO implements UserInterface {
 	// create Method for user to ad record to the database.
 	/**
 	 * @param newUser object
+	 * @throws PersistanceException 
 	 */
-	public void create(UserEntity newUser) {
+	public void create(UserEntity newUser) throws PersistanceException {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -127,7 +128,7 @@ public class UserDAO implements UserInterface {
 		}catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-			throw new RuntimeException();
+			throw new PersistanceException(e.getMessage());
 		}
 		finally {
 			ConnectionUtil.close(con, ps, rs);
@@ -137,8 +138,9 @@ public class UserDAO implements UserInterface {
 	}
 	/**
 	 * @param id,updatedUser
+	 * @throws PersistanceException 
 	 */
-	public void update(int id,  UserEntity updatedUser) {
+	public void update(int id,  UserEntity updatedUser) throws PersistanceException {
 		Connection con = null;
 		PreparedStatement ps = null;		
 
@@ -157,7 +159,7 @@ public class UserDAO implements UserInterface {
 		}catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-			throw new RuntimeException();
+			throw new PersistanceException(e.getMessage());
 		}
 		finally {
 			ConnectionUtil.close(con, ps);
@@ -166,9 +168,10 @@ public class UserDAO implements UserInterface {
 		}
 	/**
 	 * @param id
+	 * @throws PersistanceException 
 	 */
 
-	public void delete(int id) {
+	public void delete(int id) throws PersistanceException {
 		Connection con = null;
 		PreparedStatement ps = null;
 		
@@ -185,7 +188,7 @@ public class UserDAO implements UserInterface {
 		} catch(Exception e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-			throw new RuntimeException();
+			throw new PersistanceException(e.getMessage());
 		}
 		finally {
 			ConnectionUtil.close(con, ps);
@@ -194,9 +197,10 @@ public class UserDAO implements UserInterface {
 	/**
 	 * @param id 
 	 * @return user object
+	 * @throws PersistanceException 
 	 */
 
-	public UserEntity findById(int id) {
+	public UserEntity findById(int id) throws PersistanceException {
 		
 		Connection con = null;
 		PreparedStatement ps = null;
@@ -223,7 +227,7 @@ public class UserDAO implements UserInterface {
 		}catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-			throw new RuntimeException();
+			throw new PersistanceException(e.getMessage());
 		}
 		finally {
 			ConnectionUtil.close(con, ps, rs);

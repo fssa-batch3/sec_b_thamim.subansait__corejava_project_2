@@ -17,7 +17,7 @@ public class TestDeleteTrack {
 		TrackService trackService = new TrackService();
 
 		assertDoesNotThrow(() -> {
-			trackService.delete(7);
+			trackService.delete(1);
 		});
 	}
 

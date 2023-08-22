@@ -5,6 +5,8 @@ import java.util.Set;
 import in.fssa.doboo.model.UserEntity;
 import in.fssa.doboo.util.StringUtil;
 import in.fssa.doboo.dao.UserDAO;
+import in.fssa.doboo.exception.PersistanceException;
+import in.fssa.doboo.exception.ServiceException;
 import in.fssa.doboo.exception.ValidationException;
 import in.fssa.doboo.validator.UserValidator;
 
@@ -22,7 +24,14 @@ public class UserService {
 	 */
 	public Set<UserEntity> getAll() {
 
-		Set<UserEntity> userList = userDao.findAll();
+		Set<UserEntity> userList = null;
+		try {
+			userList = userDao.findAll();
+		} catch (PersistanceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw new ServiceException(e.getMessage());
+		}
 
 		return userList;
 	}
@@ -31,13 +40,18 @@ public class UserService {
 	 * @param newUser
 	 * @throws Exception
 	 */
-	public void create(UserEntity newUser) throws Exception {
-		UserValidator.validate(newUser);
+	public void create(UserEntity newUser) throws ServiceException,ValidationException{
+		try {
+			UserValidator.validate(newUser);
 
-		
-		UserDAO userDAO = new UserDAO();
-		userDAO.emailExists(newUser.getEmail());
-		userDAO.create(newUser);
+			UserDAO userDAO = new UserDAO();
+			userDAO.emailExists(newUser.getEmail());
+			userDAO.create(newUser);
+		} catch (PersistanceException e) {
+			e.printStackTrace();
+			throw new ServiceException(e.getMessage());
+		}
+
 	}
 	/**
 	 * 
@@ -51,17 +65,22 @@ public class UserService {
 		UserValidator.validate(updateUser);
 		UserValidator.checkIdExists(id);
 		UserValidator.validateArtist(updateUser.getArtistName());
-
-		if (updateUser.getName() != null) {
-			UserValidator.validateName(updateUser.getName());
-		}
-		if (updateUser.getPassword() != null) {
-			UserValidator.validatePassword(updateUser.getPassword());
-		}
+//
+//		if (updateUser.getName() != null) {
+//			UserValidator.validateName(updateUser.getName());
+//		}
+//		if (updateUser.getPassword() != null) {
+//			UserValidator.validatePassword(updateUser.getPassword());
+//		}
 
 		UserDAO userDAO = new UserDAO();
 
-		userDAO.update(id, updateUser);
+		try {
+			userDAO.update(id, updateUser);
+		} catch (PersistanceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	/**
 	 * 
@@ -72,7 +91,12 @@ public class UserService {
 		UserValidator.validateId(id);
 		UserValidator.checkIdExists(id);
 		UserDAO userDAO = new UserDAO();
-		userDAO.delete(id);
+		try {
+			userDAO.delete(id);
+		} catch (PersistanceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	/**
 	 * 
@@ -84,8 +108,15 @@ public class UserService {
 		UserValidator.validateId(id);
 		UserValidator.checkIdExists(id);
 		UserDAO userDao = new UserDAO();
-		return userDao.findById(id);
+		try {
+			return userDao.findById(id);
+		} catch (PersistanceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
+	
 	/**
 	 * 
 	 * @param email
@@ -106,6 +137,7 @@ public class UserService {
  * @throws ValidationException
  */
 	public UserEntity findByArtistName(String artistName) throws ValidationException {
+		
 		StringUtil.rejectIfInvalidString(artistName,"artistName");
 		UserDAO userDao = new UserDAO();
 		return userDao.findByArtistName(artistName);

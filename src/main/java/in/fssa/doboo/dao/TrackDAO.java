@@ -100,12 +100,12 @@ public class TrackDAO implements TrackInterface {
 	    try {
 	        // Check if the user exists in the users table
 	        if (!isUserExists(userId)) {
-	            throw new ValidationException("User with ID " + userId + " does not exist");
+	            throw new ValidationException("User ID does not exist");
 	        }
 
 	        // Check if the track name is already uploaded by the same user
 	        if (isTrackNameExistsForUser(track.getTrackName(), userId)) {
-	            throw new ValidationException("Track name " + track.getTrackName() + " already exists for the user");
+	            throw new ValidationException("Track name already exists for the user");
 	        }
 
 	        String query = "INSERT INTO tracks (track_name, track_detail, bpm, daw, genre, scale, user_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
@@ -137,7 +137,7 @@ public class TrackDAO implements TrackInterface {
 	    catch (SQLException e) {
 	        e.printStackTrace();
 	        System.out.println(e.getMessage());
-	        throw new RuntimeException();
+	        throw new RuntimeException(e);
 	    } 
 	    
 	    finally {
@@ -165,6 +165,7 @@ public class TrackDAO implements TrackInterface {
 
 	    } catch (SQLException e) {
 	        e.printStackTrace();
+	        throw new RuntimeException(e);
 	    } finally {
 	        ConnectionUtil.close(con, ps, rs);
 	    }
@@ -227,7 +228,7 @@ public class TrackDAO implements TrackInterface {
 		}catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-			throw new RuntimeException();
+			throw new RuntimeException(e);
 		}
 		finally {
 			ConnectionUtil.close(con, ps);

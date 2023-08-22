@@ -16,7 +16,6 @@ public class TrackValidator {
 		if (track == null) {
 			throw new ValidationException("track cannot be null");
 		}
-
 //		Validations
 		StringUtil.rejectIfInvalidString(track.getTrackName(), "TrackName");
 		if(track.getPrice() <= 0 || track.getPrice() >6000) {

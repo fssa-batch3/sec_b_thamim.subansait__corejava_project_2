@@ -3,21 +3,26 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
 import in.fssa.doboo.exception.PersistanceException;
+import in.fssa.doboo.exception.ServiceException;
 import in.fssa.doboo.exception.ValidationException;
 import in.fssa.doboo.model.UserEntity;
 
 import in.fssa.doboo.service.*;
+import in.fssa.doboo.util.RandomValue;
 public class TestCreateUser {
 	// Valid Input
-	
+	RandomValue value = new RandomValue();
+	@Order(2)
 	@Test
 		public void testCreateUserWithValidInput() {
 			UserService userService = new UserService();
 			UserEntity newUser = new UserEntity();
-			newUser.setEmail("in@gmail.com");
+			String randomString = value.generateRandomString(8);
+			newUser.setEmail(randomString+"@" +"gmail.com");
 			newUser.setName("Inba");
 			newUser.setArtistName("thamimtommy");
 			newUser.setDob("2003-11-08");
@@ -211,13 +216,13 @@ public class TestCreateUser {
 			public void testCreateUserEmailCheck() {
 				UserService userService = new UserService();
 				UserEntity newUser = new UserEntity();
-				newUser.setEmail("inba@gmail.com");
+				newUser.setEmail("thamim@gamil.com");
 				newUser.setName("Akil");
 				newUser.setArtistName("thamimtommy");
 				newUser.setDob("2003-11-08");
 				newUser.setRole("seller");
 				newUser.setPassword("Inba8973");
-				Exception exception = assertThrows(PersistanceException.class, () -> {
+				Exception exception = assertThrows(ServiceException.class, () -> {
 					userService.create(newUser);
 				});
 				String expectedMessage = "Email already exists";

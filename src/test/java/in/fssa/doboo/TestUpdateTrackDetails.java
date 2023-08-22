@@ -27,7 +27,7 @@ public class TestUpdateTrackDetails {
 		track.setDaw("adobe");
 		track.setBpm(69);
 		assertDoesNotThrow(() -> {
-			trackService.update(1, track);
+			trackService.update(5, track);
 		});
 	}
 	@Test
@@ -38,7 +38,7 @@ public class TestUpdateTrackDetails {
 		TrackEntity track = new TrackEntity();
 		
 		Exception exception = assertThrows(RuntimeException.class, () -> {
-			trackService.update(1, null);
+			trackService.update(5, null);
 		});
 		String expectedMessage = "track cannot be null";
 		String receivedMessage = exception.getMessage();
@@ -61,7 +61,7 @@ public class TestUpdateTrackDetails {
 		track.setBpm(69);
 		
 		Exception exception = assertThrows(RuntimeException.class, () -> {
-			trackService.update(1, track);
+			trackService.update(5, track);
 		});
 		String expectedMessage = "TrackName cannot be null or empty";
 		String receivedMessage = exception.getMessage();
@@ -84,7 +84,7 @@ public class TestUpdateTrackDetails {
 		track.setBpm(69);
 		
 		Exception exception = assertThrows(RuntimeException.class, () -> {
-			trackService.update(1, track);
+			trackService.update(5, track);
 		});
 		String expectedMessage = "TrackName cannot be null or empty";
 		String receivedMessage = exception.getMessage();
@@ -130,7 +130,7 @@ public class TestUpdateTrackDetails {
 		track.setBpm(69);
 		
 		Exception exception = assertThrows(RuntimeException.class, () -> {
-			trackService.update(10, track);
+			trackService.update(100, track);
 		});
 		String expectedMessage = "track not found";
 		String receivedMessage = exception.getMessage();

@@ -71,7 +71,7 @@ public class TrackService {
 	 */
 
 	public void update(int id, TrackEntity track) throws ValidationException, RuntimeException {
-
+        
 		Timestamp d = null;
 		try {
 			TrackDAO trackDao = new TrackDAO();
@@ -134,7 +134,7 @@ public class TrackService {
 	     * @return
 	     */
 
-	    public Set<TrackEntity> findTracksByAtirstName(String artistName) {
+	    public Set<TrackEntity> findTracksByAtirstName(String artistName) throws RuntimeException {
 	        try {
 	        	StringUtil.rejectIfInvalidString(artistName, "artistName");
 	            return trackDao.findTracksByAtirstName(artistName);

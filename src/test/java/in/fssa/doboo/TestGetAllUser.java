@@ -56,7 +56,7 @@ public class TestGetAllUser {
 
 		UserService userService = new UserService();
 		Exception exception = assertThrows(ValidationException.class, () -> {
-			userService.findById(10);
+			userService.findById(100);
 		});
 
 		String expectedMessage = "Id doesn't exist";

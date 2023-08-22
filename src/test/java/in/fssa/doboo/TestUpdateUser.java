@@ -17,14 +17,14 @@ public class TestUpdateUser {
 		UserService userService = new UserService();
 
 		UserEntity newUser = new UserEntity();
-		newUser.setEmail("in@gmail.com");
-		newUser.setName("Inba");
+		newUser.setEmail("thamim@gmail.com");
+		newUser.setName("praveen");
 		newUser.setArtistName("thamimtommy");
 		newUser.setDob("2003-11-08");
 		newUser.setRole("seller");
 		newUser.setPassword("Inba123098");
 		assertDoesNotThrow(() -> {
-			userService.update(1, newUser);
+			userService.update(4, newUser);
 		});
 	}
 
@@ -33,7 +33,7 @@ public class TestUpdateUser {
 	public void testUpdateUserWithInvaidInput() {
 		UserService userService = new UserService();
 		Exception exception = assertThrows(ValidationException.class, () -> {
-			userService.update(1, null);
+			userService.update(4, null);
 		});
 		String expectedMessage = "Invalid user input";
 		String receivedMessage = exception.getMessage();
@@ -46,15 +46,16 @@ public class TestUpdateUser {
 		UserService userService = new UserService();
 
 		UserEntity newUser = new UserEntity();
-		newUser.setEmail("in@gmail.com");
-		newUser.setName("Inba");
+
+		newUser.setEmail("thamim@gmail.com");
+		newUser.setName("praveen");
 		newUser.setArtistName("thamimtommy");
 		newUser.setDob("2003-11-08");
 		newUser.setRole("seller");
 		newUser.setPassword(null);
 
 		Exception exception = assertThrows(ValidationException.class, () -> {
-			userService.update(1, newUser);
+			userService.update(4, newUser);
 		});
 
 		String expectedMessage = "Password cannot be null or empty";
@@ -69,14 +70,15 @@ public class TestUpdateUser {
 		UserService userService = new UserService();
 
 		UserEntity newUser = new UserEntity();
-		newUser.setEmail("in@gmail.com");
-		newUser.setName("Inba");
+		newUser.setEmail("thamim@gmail.com");
+		newUser.setName("praveen");
 		newUser.setArtistName("thamimtommy");
 		newUser.setDob("2003-11-08");
 		newUser.setRole("seller");
+		newUser.setPassword("Inba123098");
 		newUser.setPassword("");
 		Exception exception = assertThrows(ValidationException.class, () -> {
-			userService.update(1, newUser);
+			userService.update(4, newUser);
 
 		});
 
@@ -91,15 +93,15 @@ public class TestUpdateUser {
 		UserService userService = new UserService();
 
 		UserEntity newUser = new UserEntity();
-		newUser.setEmail("in@gmail.com");
-		newUser.setName(null);
+		newUser.setEmail("thamim@gmail.com");
 		newUser.setArtistName("thamimtommy");
 		newUser.setDob("2003-11-08");
 		newUser.setRole("seller");
-		newUser.setPassword("Inba12345");
+		newUser.setPassword("Inba123098");
+		newUser.setName(null);
 
 		Exception exception = assertThrows(ValidationException.class, () -> {
-			userService.update(1, newUser);
+			userService.update(4, newUser);
 		});
 
 		String expectedMessage = "Name cannot be null or empty";
@@ -114,14 +116,15 @@ public class TestUpdateUser {
 		UserService userService = new UserService();
 
 		UserEntity newUser = new UserEntity();
-		newUser.setEmail("in@gmail.com");
-		newUser.setName("");
+		newUser.setEmail("thamim@gmail.com");
 		newUser.setArtistName("thamimtommy");
 		newUser.setDob("2003-11-08");
 		newUser.setRole("seller");
-		newUser.setPassword("Inba12345");
+		newUser.setPassword("Inba123098");
+		newUser.setName("");
+
 		Exception exception = assertThrows(ValidationException.class, () -> {
-			userService.update(1, newUser);
+			userService.update(4, newUser);
 
 		});
 
@@ -137,15 +140,16 @@ public class TestUpdateUser {
 		UserService userService = new UserService();
 		UserEntity newUser = new UserEntity();
 		
-		newUser.setEmail("in@gmail.com");
+		
 		newUser.setName("Inba2309029301");
+		newUser.setEmail("thamim@gmail.com");
 		newUser.setArtistName("thamimtommy");
 		newUser.setDob("2003-11-08");
 		newUser.setRole("seller");
-		newUser.setPassword("Inba1234");
+		newUser.setPassword("Inba123098");
 
 		Exception exception = assertThrows(ValidationException.class, () -> {
-			userService.update(1, newUser);
+			userService.update(4, newUser);
 
 		});
 		String expectedMessage = "Name doesn't match the pattern";
@@ -160,15 +164,15 @@ public class TestUpdateUser {
 
 		UserService userService = new UserService();
 		UserEntity newUser = new UserEntity();
-		newUser.setEmail("in@gmail.com");
-		newUser.setName("thamimmansoor");
+		newUser.setEmail("thamim@gmail.com");
+		newUser.setName("praveen");
 		newUser.setArtistName("thamimtommy");
 		newUser.setDob("2003-11-08");
 		newUser.setRole("seller");
 		newUser.setPassword("inba123");
 
 		Exception exception = assertThrows(ValidationException.class, () -> {
-			userService.update(1, newUser);
+			userService.update(4, newUser);
 
 		});
 		String expectedMessage = "Password doesn't match the pattern";
@@ -184,12 +188,12 @@ public class TestUpdateUser {
 		UserService userService = new UserService();
 
 		UserEntity newUser = new UserEntity();
-		newUser.setEmail("in@gmail.com");
-		newUser.setName("thamimtommy");
+		newUser.setEmail("thamim@gmail.com");
+		newUser.setName("praveen");
 		newUser.setArtistName("thamimtommy");
 		newUser.setDob("2003-11-08");
 		newUser.setRole("seller");
-		newUser.setPassword("Inba12345");
+		newUser.setPassword("Inba123098");
 		Exception exception = assertThrows(ValidationException.class, () -> {
 			userService.update(0, newUser);
 		});
@@ -207,14 +211,14 @@ public class TestUpdateUser {
 		UserService userService = new UserService();
 
 		UserEntity newUser = new UserEntity();
-		newUser.setEmail("in@gmail.com");
-		newUser.setName("thamimtommy");
+		newUser.setEmail("thamim@gmail.com");
+		newUser.setName("praveen");
 		newUser.setArtistName("thamimtommy");
 		newUser.setDob("2003-11-08");
 		newUser.setRole("seller");
-		newUser.setPassword("Inba12345");
+		newUser.setPassword("Inba123098");
 		Exception exception = assertThrows(ValidationException.class, () -> {
-			userService.update(10, newUser);
+			userService.update(100, newUser);
 		});
 
 		String expectedMessage = "Id doesn't exist";
@@ -228,14 +232,15 @@ public class TestUpdateUser {
 		UserService userService = new UserService();
 
 		UserEntity newUser = new UserEntity();
-		newUser.setEmail("in@gmail.com");
-		newUser.setName("thamimtommy");
-		newUser.setArtistName(null);
+		newUser.setEmail("thamim@gmail.com");
+		newUser.setName("praveen");
 		newUser.setDob("2003-11-08");
 		newUser.setRole("seller");
-		newUser.setPassword("Inba12345");
+		newUser.setPassword("Inba123098");
+		newUser.setArtistName(null);
+		
 		Exception exception = assertThrows(ValidationException.class, () -> {
-			userService.update(1, newUser);
+			userService.update(4, newUser);
 		});
 
 		String expectedMessage = "Aritst Name cannot be null";
@@ -250,14 +255,17 @@ public class TestUpdateUser {
 		UserService userService = new UserService();
 
 		UserEntity newUser = new UserEntity();
-		newUser.setEmail("in@gmail.com");
-		newUser.setName("thamimtommy");
+		
+		
 		newUser.setArtistName("euiwueiuoqwiueioquweiuqiowueioqwueoiquwioeuqwioeuiowqueoiwqueioqwueiuqwueiu82719878uoiuiowueoiqw");
+		newUser.setEmail("thamim@gmail.com");
+		newUser.setName("praveen");
 		newUser.setDob("2003-11-08");
 		newUser.setRole("seller");
-		newUser.setPassword("Inba12345");
+		newUser.setPassword("Inba123098");
+		
 		Exception exception = assertThrows(ValidationException.class, () -> {
-			userService.update(1, newUser);
+			userService.update(4, newUser);
 		});
 
 		String expectedMessage = "Aritst Name is out of characters";
