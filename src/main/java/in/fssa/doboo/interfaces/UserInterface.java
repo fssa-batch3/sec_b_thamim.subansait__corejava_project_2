@@ -1,4 +1,4 @@
-package in.fssa.doboo.Interface;
+package in.fssa.doboo.interfaces;
 
 import in.fssa.doboo.model.User;
 import in.fssa.doboo.model.UserEntity;

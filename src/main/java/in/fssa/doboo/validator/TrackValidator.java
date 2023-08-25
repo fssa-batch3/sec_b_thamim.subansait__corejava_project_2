@@ -34,12 +34,26 @@ public class TrackValidator {
 			if (id <= 0)
 				throw new ValidationException("id is less than zero");
 			
-			TrackDAO productDao = new TrackDAO();
-			productDao.checkIdExists(id);
+			TrackDAO trackDao = new TrackDAO();
+			trackDao.checkIdExists(id);
 		} catch (RuntimeException e) {
 			throw new ValidationException(e.getMessage());
 		}
 
+	}
+	
+	public static void validForCreation(TrackEntity track, int userId) throws ValidationException {
+		
+		TrackDAO trackDAO = new TrackDAO();
+		 // Check if the user exists in the users table
+        if (!trackDAO.isUserExists(userId)) {
+            throw new ValidationException("User ID does not exist");
+        }
+
+        // Check if the track name is already uploaded by the same user
+        if (trackDAO.isTrackNameExistsForUser(track.getTrackName(), userId)) {
+            throw new ValidationException("Track name already exists for the user");
+        }
 	}
 
 }

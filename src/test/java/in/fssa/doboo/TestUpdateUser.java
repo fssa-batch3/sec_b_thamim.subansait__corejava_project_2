@@ -24,7 +24,7 @@ public class TestUpdateUser {
 		newUser.setRole("seller");
 		newUser.setPassword("Inba123098");
 		assertDoesNotThrow(() -> {
-			userService.update(4, newUser);
+			userService.updateUser(4, newUser);
 		});
 	}
 
@@ -33,7 +33,7 @@ public class TestUpdateUser {
 	public void testUpdateUserWithInvaidInput() {
 		UserService userService = new UserService();
 		Exception exception = assertThrows(ValidationException.class, () -> {
-			userService.update(4, null);
+			userService.updateUser(4, null);
 		});
 		String expectedMessage = "Invalid user input";
 		String receivedMessage = exception.getMessage();
@@ -55,7 +55,7 @@ public class TestUpdateUser {
 		newUser.setPassword(null);
 
 		Exception exception = assertThrows(ValidationException.class, () -> {
-			userService.update(4, newUser);
+			userService.updateUser(4, newUser);
 		});
 
 		String expectedMessage = "Password cannot be null or empty";
@@ -78,7 +78,7 @@ public class TestUpdateUser {
 		newUser.setPassword("Inba123098");
 		newUser.setPassword("");
 		Exception exception = assertThrows(ValidationException.class, () -> {
-			userService.update(4, newUser);
+			userService.updateUser(4, newUser);
 
 		});
 
@@ -101,7 +101,7 @@ public class TestUpdateUser {
 		newUser.setName(null);
 
 		Exception exception = assertThrows(ValidationException.class, () -> {
-			userService.update(4, newUser);
+			userService.updateUser(4, newUser);
 		});
 
 		String expectedMessage = "Name cannot be null or empty";
@@ -124,7 +124,7 @@ public class TestUpdateUser {
 		newUser.setName("");
 
 		Exception exception = assertThrows(ValidationException.class, () -> {
-			userService.update(4, newUser);
+			userService.updateUser(4, newUser);
 
 		});
 
@@ -149,7 +149,7 @@ public class TestUpdateUser {
 		newUser.setPassword("Inba123098");
 
 		Exception exception = assertThrows(ValidationException.class, () -> {
-			userService.update(4, newUser);
+			userService.updateUser(4, newUser);
 
 		});
 		String expectedMessage = "Name doesn't match the pattern";
@@ -172,7 +172,7 @@ public class TestUpdateUser {
 		newUser.setPassword("inba123");
 
 		Exception exception = assertThrows(ValidationException.class, () -> {
-			userService.update(4, newUser);
+			userService.updateUser(4, newUser);
 
 		});
 		String expectedMessage = "Password doesn't match the pattern";
@@ -195,7 +195,7 @@ public class TestUpdateUser {
 		newUser.setRole("seller");
 		newUser.setPassword("Inba123098");
 		Exception exception = assertThrows(ValidationException.class, () -> {
-			userService.update(0, newUser);
+			userService.updateUser(0, newUser);
 		});
 
 		String expectedMessage = "Id can't be less than or equal to zero";
@@ -218,7 +218,7 @@ public class TestUpdateUser {
 		newUser.setRole("seller");
 		newUser.setPassword("Inba123098");
 		Exception exception = assertThrows(ValidationException.class, () -> {
-			userService.update(100, newUser);
+			userService.updateUser(100, newUser);
 		});
 
 		String expectedMessage = "Id doesn't exist";
@@ -240,7 +240,7 @@ public class TestUpdateUser {
 		newUser.setArtistName(null);
 		
 		Exception exception = assertThrows(ValidationException.class, () -> {
-			userService.update(4, newUser);
+			userService.updateUser(4, newUser);
 		});
 
 		String expectedMessage = "Aritst Name cannot be null";
@@ -265,7 +265,7 @@ public class TestUpdateUser {
 		newUser.setPassword("Inba123098");
 		
 		Exception exception = assertThrows(ValidationException.class, () -> {
-			userService.update(4, newUser);
+			userService.updateUser(4, newUser);
 		});
 
 		String expectedMessage = "Aritst Name is out of characters";

@@ -14,10 +14,10 @@ import in.fssa.doboo.validator.TrackValidator;
 
 public class TrackService {
 
-	private TrackDAO trackDao;
+	private TrackDAO trackDAO;
 
 	public TrackService() {
-		this.trackDao = new TrackDAO(); // Initialize userDao instance in the constructor
+		this.trackDAO = new TrackDAO(); // Initialize userDao instance in the constructor
 	}
 
 	// this is method is to get all tracks from the database.
@@ -25,9 +25,9 @@ public class TrackService {
 	 * 
 	 * @return
 	 */
-	public Set<TrackEntity> getAll() {
+	public Set<TrackEntity> getAllTracks() {
 
-		Set<TrackEntity> trackList = trackDao.findAll();
+		Set<TrackEntity> trackList = trackDAO.findAll();
 
 		return trackList;
 	}
@@ -38,22 +38,37 @@ public class TrackService {
 	 * @throws ValidationException
 	 * @throws RuntimeException
 	 */
+	
+	/*
+	 * Parameter for to create tracks are 
+	 * 1. track name
+	 * 2. track description
+	 * 3. track bpm
+	 * 4. track daw
+	 * 5. track genre
+	 * 6. track scale
+	 * */
 
-	public void create(TrackEntity track, int userId) throws ValidationException, RuntimeException {
+	public void createTrack(TrackEntity track, int userId) throws ValidationException, RuntimeException {
 
 		int generatedId = -1;
 		Timestamp d = null;
 
 		try {
-			UserDAO user = new UserDAO();
+//			UserDAO user = new UserDAO();
 			
-			TrackDAO trackDao = new TrackDAO();
-			TrackPriceService productPriceService = new TrackPriceService();
+			TrackDAO trackDAO = new TrackDAO();
+			TrackPriceService trackPriceService = new TrackPriceService();
+			
+			// validate the track object
+			
+			
 			TrackValidator.validate(track);
+			TrackValidator.validForCreation(track, userId);
 			
-			generatedId = trackDao.createTrack(track, userId);
-			d = productPriceService.getDate(generatedId);
-			productPriceService.create(d, generatedId, track.getPrice());
+			generatedId = trackDAO.createTrack(track, userId);
+			d = trackPriceService.getTrackByDate(generatedId);
+			trackPriceService.createTrackPrice(d, generatedId, track.getPrice());
 
 		} catch (ValidationException e) {
 			throw new RuntimeException(e.getMessage());
@@ -64,13 +79,13 @@ public class TrackService {
 	}
 	/**
 	 * 
-	 * @param id
+	 * @param userId
 	 * @param track
 	 * @throws ValidationException
 	 * @throws RuntimeException
 	 */
 
-	public void update(int id, TrackEntity track) throws ValidationException, RuntimeException {
+	public void updateTrack(int userId, TrackEntity track) throws ValidationException, RuntimeException {
         
 		Timestamp d = null;
 		try {
@@ -79,12 +94,12 @@ public class TrackService {
 
 //			Vaidate id and product
 			TrackValidator.validate(track);
-			TrackValidator.isIdValid(id);
+			TrackValidator.isIdValid(userId);
 
 //			Update details
-			trackDao.update(id, track);
-			d = productPriceService.getDate(id);
-			productPriceService.update(d, id, track.getPrice());
+			trackDao.update(userId, track);
+			d = productPriceService.getTrackByDate(userId);
+			productPriceService.updateTrackPrice(d, userId, track.getPrice());
 
 		} catch (ValidationException e) {
 			throw new RuntimeException(e.getMessage());
@@ -93,17 +108,17 @@ public class TrackService {
 	}
 	/**
 	 * 
-	 * @param id
+	 * @param userId
 	 * @throws ValidationException
 	 * @throws RuntimeException
 	 */
 
-	public void delete(int id) throws ValidationException, RuntimeException {
+	public void deleteTrack(int userId) throws ValidationException, RuntimeException {
 
 		try {
 			TrackDAO trackDao = new TrackDAO();
-			TrackValidator.isIdValid(id);
-			trackDao.delete(id);
+			TrackValidator.isIdValid(userId);
+			trackDao.delete(userId);
 		} catch (ValidationException e) {
 			e.printStackTrace();
 			throw new RuntimeException(e.getMessage());
@@ -117,7 +132,7 @@ public class TrackService {
 	    public Set<TrackEntity> findMatchTrackByName(String trackName) {
 	        try {
 	        	StringUtil.rejectIfInvalidString(trackName, "trackName");
-	            return trackDao.findMatchTrackByName(trackName);
+	            return trackDAO.findMatchTrackByName(trackName);
 	        } 
 	        catch (ValidationException e) {
 	            e.printStackTrace();
@@ -137,7 +152,7 @@ public class TrackService {
 	    public Set<TrackEntity> findTracksByAtirstName(String artistName) throws RuntimeException {
 	        try {
 	        	StringUtil.rejectIfInvalidString(artistName, "artistName");
-	            return trackDao.findTracksByAtirstName(artistName);
+	            return trackDAO.findTracksByAtirstName(artistName);
 	        }
 	        catch (ValidationException e) {
 	            e.printStackTrace();

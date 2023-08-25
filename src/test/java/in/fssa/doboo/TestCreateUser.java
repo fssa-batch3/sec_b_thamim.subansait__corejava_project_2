@@ -29,7 +29,7 @@ public class TestCreateUser {
 			newUser.setRole("seller");
 			newUser.setPassword("Inba123098");
 			assertDoesNotThrow(() -> {
-				userService.create(newUser);
+				userService.createUser(newUser);
 			});
 		}
 	
@@ -40,7 +40,7 @@ public class TestCreateUser {
 	public void testCreateUserWithInvaidInput() {
 		UserService userService = new UserService();
 		Exception exception = assertThrows(ValidationException.class, () -> {
-			userService.create(null);
+			userService.createUser(null);
 		});
 		String expectedMessage = "Invalid user input";
 		String receivedMessage = exception.getMessage();
@@ -60,7 +60,7 @@ public class TestCreateUser {
 		newUser.setRole("seller");
 		newUser.setPassword("Inba123098");
 		Exception exception = assertThrows(ValidationException.class, () -> {
-			userService.create(newUser);
+			userService.createUser(newUser);
 		});
 		String expectedMessage = "Email cannot be null or empty";
 		String receivedMessage = exception.getMessage();
@@ -80,7 +80,7 @@ public class TestCreateUser {
 			newUser.setRole("seller");
 			newUser.setPassword("Inba123098");
 			Exception exception = assertThrows(ValidationException.class, () -> {
-				userService.create(newUser);
+				userService.createUser(newUser);
 			});
 			String expectedMessage = "Email cannot be null or empty";
 			String receivedMessage = exception.getMessage();
@@ -100,7 +100,7 @@ public class TestCreateUser {
 			newUser.setRole("seller");
 			newUser.setPassword(null);
 			Exception exception = assertThrows(ValidationException.class, () -> {
-				userService.create(newUser);
+				userService.createUser(newUser);
 			});
 			String expectedMessage = "Password cannot be null or empty";
 			String receivedMessage = exception.getMessage();
@@ -120,7 +120,7 @@ public class TestCreateUser {
 				newUser.setRole("seller");
 				newUser.setPassword("");
 				Exception exception = assertThrows(ValidationException.class, () -> {
-					userService.create(newUser);
+					userService.createUser(newUser);
 				});
 				String expectedMessage = "Password cannot be null or empty";
 				String receivedMessage = exception.getMessage();
@@ -141,7 +141,7 @@ public class TestCreateUser {
 				newUser.setRole("seller");
 				newUser.setPassword("Inba12345");
 				Exception exception = assertThrows(ValidationException.class, () -> {
-					userService.create(newUser);
+					userService.createUser(newUser);
 				});
 				String expectedMessage = "Name cannot be null or empty";
 				String receivedMessage = exception.getMessage();
@@ -162,7 +162,7 @@ public class TestCreateUser {
 				newUser.setRole("seller");
 				newUser.setPassword("Inba12345");
 				Exception exception = assertThrows(ValidationException.class, () -> {
-					userService.create(newUser);
+					userService.createUser(newUser);
 				});
 				String expectedMessage = "Name cannot be null or empty";
 				String receivedMessage = exception.getMessage();
@@ -182,7 +182,7 @@ public class TestCreateUser {
 				newUser.setRole("seller");
 				newUser.setPassword("Inba12345");
 				Exception exception = assertThrows(ValidationException.class, () -> {
-					userService.create(newUser);
+					userService.createUser(newUser);
 				});
 				String expectedMessage = "Email doesn't match the pattern";
 				String receivedMessage = exception.getMessage();
@@ -203,7 +203,7 @@ public class TestCreateUser {
 				newUser.setRole("seller");
 				newUser.setPassword("inba8973");
 				Exception exception = assertThrows(ValidationException.class, () -> {
-					userService.create(newUser);
+					userService.createUser(newUser);
 				});
 				String expectedMessage = "Password doesn't match the pattern";
 				String receivedMessage = exception.getMessage();
@@ -216,14 +216,14 @@ public class TestCreateUser {
 			public void testCreateUserEmailCheck() {
 				UserService userService = new UserService();
 				UserEntity newUser = new UserEntity();
-				newUser.setEmail("thamim@gamil.com");
+				newUser.setEmail("thamim@8973.com");
 				newUser.setName("Akil");
 				newUser.setArtistName("thamimtommy");
 				newUser.setDob("2003-11-08");
 				newUser.setRole("seller");
 				newUser.setPassword("Inba8973");
 				Exception exception = assertThrows(ServiceException.class, () -> {
-					userService.create(newUser);
+					userService.createUser(newUser);
 				});
 				String expectedMessage = "Email already exists";
 				String receivedMessage = exception.getMessage();

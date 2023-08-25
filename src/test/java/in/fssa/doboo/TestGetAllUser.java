@@ -18,7 +18,7 @@ public class TestGetAllUser {
 
 		UserService userService = new UserService();
 		assertDoesNotThrow(() -> {
-			Set<UserEntity> users = userService.getAll();
+			Set<UserEntity> users = userService.getAllUsers();
 			for(UserEntity u : users) {
 				System.out.println(u);			
 			}
@@ -32,7 +32,7 @@ public class TestGetAllUser {
 		UserService userService = new UserService();
 
 		assertDoesNotThrow(() -> {
-			System.out.println(userService.findById(2));
+			System.out.println(userService.findByUserId(2));
 		});
 	}
 
@@ -42,7 +42,7 @@ public class TestGetAllUser {
 
 		UserService userService = new UserService();
 		Exception exception = assertThrows(ValidationException.class, () -> {
-			userService.findById(0);
+			userService.findByUserId(0);
 		});
 
 		String expectedMessage = "Id can't be less than or equal to zero";
@@ -56,7 +56,7 @@ public class TestGetAllUser {
 
 		UserService userService = new UserService();
 		Exception exception = assertThrows(ValidationException.class, () -> {
-			userService.findById(100);
+			userService.findByUserId(100);
 		});
 
 		String expectedMessage = "Id doesn't exist";

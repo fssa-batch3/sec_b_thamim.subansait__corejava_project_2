@@ -10,21 +10,19 @@ import in.fssa.doboo.validator.TrackValidator;
 public class TrackPriceService {
 /**
  * 
- * @param uDate
- * @param track_id
+ * @param updateDate
+ * @param trackId
  * @param price
  * @throws ValidationException
  * @throws RuntimeException
  */
-	public void create(Timestamp uDate, int track_id, int price) throws ValidationException, RuntimeException {
+	public void createTrackPrice(Timestamp updateDate, int trackId, int price) throws ValidationException, RuntimeException {
 		
 		try {
-			if(price<=0 && price <6000)
-				throw new ValidationException("price cannot be 0 or greater than 6000");
 			
-			TrackValidator.isIdValid(track_id);	
-			TrackPriceDAO productPriceDao = new TrackPriceDAO();	
-			productPriceDao.createTrackPrice(track_id, price, uDate);
+			TrackValidator.isIdValid(trackId);	
+			TrackPriceDAO trackPriceDao = new TrackPriceDAO();	
+			trackPriceDao.createTrackPrice(trackId, price, updateDate);
 				
 		}catch(ValidationException e) {
 			throw new RuntimeException(e.getMessage());
@@ -33,18 +31,18 @@ public class TrackPriceService {
 	}
 	/**
 	 * 
-	 * @param track_id
+	 * @param trackId
 	 * @return
 	 * @throws ValidationException
 	 * @throws RuntimeException
 	 */
 	
-	public Timestamp getDate(int track_id) throws ValidationException, RuntimeException {
+	public Timestamp getTrackByDate(int trackId) throws ValidationException, RuntimeException {
 		Timestamp d = null;
 	try {
-		 TrackValidator.isIdValid(track_id);
-		 TrackPriceDAO productPriceDao = new TrackPriceDAO();	
-			d = productPriceDao.getDate(track_id);
+		 TrackValidator.isIdValid(trackId);
+		 TrackPriceDAO trackPriceDao = new TrackPriceDAO();	
+			d = trackPriceDao.getDate(trackId);
 				
 		}catch(ValidationException e) {
 			throw new RuntimeException(e.getMessage());
@@ -53,13 +51,13 @@ public class TrackPriceService {
 		return d;
 	}
 	
-public void update(Timestamp uDate, int trackId, int price) throws ValidationException, RuntimeException {
+public void updateTrackPrice(Timestamp upateDate, int trackId, int price) throws ValidationException, RuntimeException {
 		
 		try {
 			TrackValidator.isIdValid(trackId);	
 			TrackPriceDAO trackPriceDao = new TrackPriceDAO();
-			trackPriceDao.update(uDate, trackId);
-			trackPriceDao.createTrackPrice(trackId,price,uDate);
+			trackPriceDao.update(upateDate, trackId);
+			trackPriceDao.createTrackPrice(trackId,price,upateDate);
 				
 		}catch(ValidationException e) {
 			throw new RuntimeException(e.getMessage());	

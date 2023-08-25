@@ -1,4 +1,4 @@
-package in.fssa.doboo.Interface;
+package in.fssa.doboo.interfaces;
 
 import java.util.Set;
 

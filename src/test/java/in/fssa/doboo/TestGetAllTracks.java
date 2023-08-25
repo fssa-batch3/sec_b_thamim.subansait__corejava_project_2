@@ -21,7 +21,7 @@ public class TestGetAllTracks {
 
 		TrackService trackService = new TrackService();
 		assertDoesNotThrow(() -> {
-			Set<TrackEntity> tracks = trackService.getAll();
+			Set<TrackEntity> tracks = trackService.getAllTracks();
 			for(TrackEntity track : tracks) {
 				System.out.println(track);			
 			}

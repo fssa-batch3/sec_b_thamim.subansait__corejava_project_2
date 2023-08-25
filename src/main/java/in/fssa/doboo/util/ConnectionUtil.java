@@ -6,8 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import io.github.cdimascio.dotenv.Dotenv;
-
 public class ConnectionUtil {
 
 	public static Connection getConnection() {
@@ -16,16 +14,15 @@ public class ConnectionUtil {
         String userName;
         String passWord;
 
-        if (System.getenv("CI") != null) {
             url = System.getenv("DATABASE_HOSTNAME");
             userName = System.getenv("DATABASE_USERNAME");
             passWord = System.getenv("DATABASE_PASSWORD");
-        } else {
-            Dotenv env = Dotenv.load();
-            url = env.get("DATABASE_HOSTNAME");
-            userName = env.get("DATABASE_USERNAME");
-            passWord = env.get("DATABASE_PASSWORD");
-        }
+        
+        	            
+//        	 url = "jdbc:mysql://164.52.216.41:3306/thamim_subansait_corejava_project";
+//        	 userName = "gfMkJwcB811m";
+//        	 passWord = "a5e984ca-8fc3-4620-b0db-1a95b679a08b";
+        
 		Connection connection = null;
 		
 

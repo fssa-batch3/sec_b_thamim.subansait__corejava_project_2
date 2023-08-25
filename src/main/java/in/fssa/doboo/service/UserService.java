@@ -12,23 +12,22 @@ import in.fssa.doboo.validator.UserValidator;
 
 public class UserService {
 
-	private UserDAO userDao;
+	private UserDAO userDAO;
 
 	public UserService() {
-		this.userDao = new UserDAO(); // Initialize userDao instance in the constructor
+		this.userDAO = new UserDAO(); // Initialize userDao instance in the constructor
 	}
 
 	/**
 	 * 
 	 * @return
 	 */
-	public Set<UserEntity> getAll() {
+	public Set<UserEntity> getAllUsers() {
 
 		Set<UserEntity> userList = null;
 		try {
-			userList = userDao.findAll();
+			userList = userDAO.findAll();
 		} catch (PersistanceException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			throw new ServiceException(e.getMessage());
 		}
@@ -40,7 +39,19 @@ public class UserService {
 	 * @param newUser
 	 * @throws Exception
 	 */
-	public void create(UserEntity newUser) throws ServiceException,ValidationException{
+	
+	/*
+	 * User object 
+	 * 1. user name
+	 * 2. password
+	 * 3. date of birth
+	 * 4. email
+	 * 5. artist name
+	 * 6. role
+	 *  
+	 * 
+	 * */
+	public void createUser(UserEntity newUser) throws ServiceException,ValidationException{
 		try {
 			UserValidator.validate(newUser);
 
@@ -60,7 +71,7 @@ public class UserService {
 	 * @throws ValidationException
 	 */
 
-	public void update(int id, UserEntity updateUser) throws ValidationException {
+	public void updateUser(int id, UserEntity updateUser) throws ValidationException {
 		UserValidator.validateId(id);
 		UserValidator.validate(updateUser);
 		UserValidator.checkIdExists(id);
@@ -78,7 +89,6 @@ public class UserService {
 		try {
 			userDAO.update(id, updateUser);
 		} catch (PersistanceException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -87,14 +97,13 @@ public class UserService {
 	 * @param id
 	 * @throws ValidationException
 	 */
-	public void delete(int id) throws ValidationException {
+	public void deleteUser(int id) throws ValidationException {
 		UserValidator.validateId(id);
 		UserValidator.checkIdExists(id);
 		UserDAO userDAO = new UserDAO();
 		try {
 			userDAO.delete(id);
 		} catch (PersistanceException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -104,14 +113,13 @@ public class UserService {
 	 * @return
 	 * @throws ValidationException
 	 */
-	public UserEntity findById(int id) throws ValidationException {
+	public UserEntity findByUserId(int id) throws ValidationException {
 		UserValidator.validateId(id);
 		UserValidator.checkIdExists(id);
 		UserDAO userDao = new UserDAO();
 		try {
 			return userDao.findById(id);
 		} catch (PersistanceException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;

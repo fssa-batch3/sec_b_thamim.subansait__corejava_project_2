@@ -36,7 +36,7 @@ public class TestCreateTrack {
 		track.setDaw("Fl");
 		track.setBpm(90);
 		assertDoesNotThrow(() -> {
-			trackService.create(track,1);
+			trackService.createTrack(track,1);
 		});
 	}
 	@Order(2)
@@ -53,7 +53,7 @@ public class TestCreateTrack {
 		track.setDaw("Fl");
 		track.setBpm(90);
 		Exception exception = assertThrows(RuntimeException.class, () -> {
-			trackService.create(track,10);
+			trackService.createTrack(track,10);
 		});
 		String expectedMessage = "User ID does not exist";
 		String receivedMessage = exception.getMessage();
@@ -74,7 +74,7 @@ public class TestCreateTrack {
 		track.setDaw("Fl");
 		track.setBpm(90);
 		Exception exception = assertThrows(RuntimeException.class, () -> {
-			trackService.create(track,3);
+			trackService.createTrack(track,3);
 		});
 		String expectedMessage = "Track name already exists for the user";
 		String receivedMessage = exception.getMessage();
@@ -86,7 +86,7 @@ public class TestCreateTrack {
 		TrackService trackService = new TrackService();
 		TrackEntity track = new TrackEntity();
 		Exception exception = assertThrows(RuntimeException.class, () -> {
-			trackService.create(null,6);
+			trackService.createTrack(null,6);
 		});
 		String expectedMessage = "track cannot be null";
 		String receivedMessage = exception.getMessage();
@@ -105,7 +105,7 @@ public class TestCreateTrack {
 		track.setDaw("Fl");
 		track.setBpm(90);
 		Exception exception = assertThrows(RuntimeException.class, () -> {
-			trackService.create(track,6);
+			trackService.createTrack(track,6);
 		});
 		String expectedMessage = "TrackName cannot be null or empty";
 		String receivedMessage = exception.getMessage();
@@ -125,7 +125,7 @@ public class TestCreateTrack {
 		track.setDaw("Fl");
 		track.setBpm(90);
 		Exception exception = assertThrows(RuntimeException.class, () -> {
-			trackService.create(track,6);
+			trackService.createTrack(track,6);
 		});
 		String expectedMessage = "price cannot be less than zero or greater than 6000";
 		String receivedMessage = exception.getMessage();
@@ -145,7 +145,7 @@ public class TestCreateTrack {
 		track.setDaw("Fl");
 		track.setBpm(90);
 		Exception exception = assertThrows(RuntimeException.class, () -> {
-			trackService.create(track,6);
+			trackService.createTrack(track,6);
 		});
 		String expectedMessage = "price cannot be less than zero or greater than 6000";
 		String receivedMessage = exception.getMessage();

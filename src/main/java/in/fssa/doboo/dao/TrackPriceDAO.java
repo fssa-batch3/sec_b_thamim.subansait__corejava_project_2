@@ -54,7 +54,7 @@ public class TrackPriceDAO {
 		PreparedStatement ps = null;
 
 		try {
-			String query = "Update track_prices set end_date = ? where track_id = ? and end_date IS NULL";
+			String query = "UPDATE track_prices SET end_date = ? WHERE track_id = ? AND end_date IS NULL";
 			con = ConnectionUtil.getConnection();
 			ps = con.prepareStatement(query);
 
@@ -85,7 +85,7 @@ public class TrackPriceDAO {
 		Timestamp updateDate = null;
 
 		try {
-			String query = "SELECT * FROM tracks where id = ?";
+			String query = "SELECT modified_at FROM tracks WHERE id = ?";
 			con = ConnectionUtil.getConnection();
 			ps = con.prepareStatement(query);
 			ps.setInt(1, track_id);

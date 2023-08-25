@@ -17,7 +17,7 @@ public class TestDeleteTrack {
 		TrackService trackService = new TrackService();
 
 		assertDoesNotThrow(() -> {
-			trackService.delete(1);
+			trackService.deleteTrack(1);
 		});
 	}
 
@@ -27,7 +27,7 @@ public class TestDeleteTrack {
 
 		TrackService trackService = new TrackService();
 		Exception exception = assertThrows(RuntimeException.class, () -> {
-			trackService.delete(0);
+			trackService.deleteTrack(0);
 		});
 
 		String expectedMessage = "id is less than zero";
@@ -41,7 +41,7 @@ public class TestDeleteTrack {
 
 		TrackService trackService = new TrackService();
 		Exception exception = assertThrows(RuntimeException.class, () -> {
-			trackService.delete(10);
+			trackService.deleteTrack(10);
 		});
 
 		String expectedMessage = "track not found";

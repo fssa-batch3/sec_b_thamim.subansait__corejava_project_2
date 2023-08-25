@@ -10,7 +10,7 @@ import java.util.Set;
 
 import javax.management.RuntimeErrorException;
 
-import in.fssa.doboo.Interface.TrackInterface;
+import in.fssa.doboo.interfaces.TrackInterface;
 import in.fssa.doboo.exception.NoTrackFoundException;
 import in.fssa.doboo.exception.ValidationException;
 import in.fssa.doboo.model.TrackEntity;
@@ -29,7 +29,7 @@ public class TrackDAO implements TrackInterface {
 		Set<TrackEntity> setOfTrack = new HashSet<>();
 
 		try {
-			String query = "SELECT * FROM tracks WHERE is_active = 1";
+			String query = "SELECT id,bpm,track_name,track_detail,daw,genre,scale FROM tracks WHERE is_active = 1";
 			con = ConnectionUtil.getConnection();
 			ps = con.prepareStatement(query);
 			rs = ps.executeQuery();
@@ -66,15 +66,13 @@ public class TrackDAO implements TrackInterface {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-
 		try {
-			String query = "select * from tracks where is_active = 1 AND id = ?";
+			String query = "SELECT EXISTS (SELECT 1 FROM tracks WHERE is_active = 1 AND id = ?)";
 			con = ConnectionUtil.getConnection();
 			ps = con.prepareStatement(query);
 			ps.setInt(1, id);
 			rs = ps.executeQuery();
-
-			if (rs.next() == false) {
+			if (!rs.next()) {
 				throw new RuntimeException("track not found");
 			}
 		} catch (SQLException e) {
@@ -90,6 +88,10 @@ public class TrackDAO implements TrackInterface {
 	 * @return track id
 	 * @throws runtime Exception
 	 */
+	
+	
+	
+
 
 	public int createTrack(TrackEntity track, int userId) {
 	    Connection con = null;
@@ -98,16 +100,7 @@ public class TrackDAO implements TrackInterface {
 	    int generatedId = -1;
 
 	    try {
-	        // Check if the user exists in the users table
-	        if (!isUserExists(userId)) {
-	            throw new ValidationException("User ID does not exist");
-	        }
-
-	        // Check if the track name is already uploaded by the same user
-	        if (isTrackNameExistsForUser(track.getTrackName(), userId)) {
-	            throw new ValidationException("Track name already exists for the user");
-	        }
-
+	       
 	        String query = "INSERT INTO tracks (track_name, track_detail, bpm, daw, genre, scale, user_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
 	        con = ConnectionUtil.getConnection();
 
@@ -129,11 +122,7 @@ public class TrackDAO implements TrackInterface {
 	            System.out.println("Track is successfully created");
 	        }
 
-	    } catch (ValidationException e) {
-	        e.printStackTrace();
-	        System.out.println(e.getMessage());
-	        throw new RuntimeException(e.getMessage());
-	    }
+	    } 
 	    catch (SQLException e) {
 	        e.printStackTrace();
 	        System.out.println(e.getMessage());
@@ -147,10 +136,11 @@ public class TrackDAO implements TrackInterface {
 	}
 
 	// Method to check if a user exists in the users table
-	private boolean isUserExists(int userId) {
+	public boolean isUserExists(int userId) {
 	    Connection con = null;
 	    PreparedStatement ps = null;
 	    ResultSet rs = null;
+	    boolean res = false;
 
 	    try {
 	        String query = "SELECT EXISTS (SELECT 1 FROM users WHERE id = ?)";
@@ -160,7 +150,7 @@ public class TrackDAO implements TrackInterface {
 	        rs = ps.executeQuery();
 
 	        if (rs.next()) {
-	            return rs.getBoolean(1); // Returns true if user exists, false if not
+	            return res = rs.getBoolean(1); // Returns true if user exists, false if not
 	        }
 
 	    } catch (SQLException e) {
@@ -170,15 +160,15 @@ public class TrackDAO implements TrackInterface {
 	        ConnectionUtil.close(con, ps, rs);
 	    }
 
-	    return false; // Default to false if an exception occurred
+	    return res; // Default to false if an exception occurred
 	}
 
 	// Method to check if a track name exists for the given user
-	private boolean isTrackNameExistsForUser(String trackName, int userId) {
+	public boolean isTrackNameExistsForUser(String trackName, int userId) {
 	    Connection con = null;
 	    PreparedStatement ps = null;
 	    ResultSet rs = null;
-
+	    boolean res = false;
 	    try {
 	        String query = "SELECT EXISTS (SELECT 1 FROM tracks WHERE track_name = ? AND user_id = ?)";
 	        con = ConnectionUtil.getConnection();
@@ -188,7 +178,7 @@ public class TrackDAO implements TrackInterface {
 	        rs = ps.executeQuery();
 
 	        if (rs.next()) {
-	            return rs.getBoolean(1); // Returns true if track name exists for the user, false if not
+	            return res=rs.getBoolean(1); // Returns true if track name exists for the user, false if not
 	        }
 
 	    } catch (SQLException e) {
@@ -197,7 +187,7 @@ public class TrackDAO implements TrackInterface {
 	        ConnectionUtil.close(con, ps, rs);
 	    }
 
-	    return false; // Default to false if an exception occurred
+	    return res; // Default to false if an exception occurred
 	}
 
 
@@ -285,7 +275,7 @@ public class TrackDAO implements TrackInterface {
 	    Set<TrackEntity> tracks = new HashSet<>();
 
 	    try {
-	        String query = "SELECT * FROM tracks WHERE is_active = 1 AND track_name = ?";
+	        String query = "SELECT id,bpm,track_name,track_detail,daw,genre,scale FROM tracks WHERE is_active = 1 AND track_name = ?";
 	        con = ConnectionUtil.getConnection();
 	        ps = con.prepareStatement(query);
 

@@ -11,7 +11,7 @@ import in.fssa.doboo.model.UserEntity;
 import in.fssa.doboo.util.ConnectionUtil;
 
 import in.fssa.doboo.model.User;
-import in.fssa.doboo.Interface.UserInterface;
+import in.fssa.doboo.interfaces.UserInterface;
 import in.fssa.doboo.exception.PersistanceException;
 import in.fssa.doboo.exception.ValidationException;
 
@@ -38,7 +38,7 @@ public class UserDAO implements UserInterface {
 		Set<UserEntity> setOfUser = new HashSet<>();
 
 		try {
-			String query = "SELECT * FROM users WHERE is_active = 1";
+			String query = "SELECT id,name,is_active,email,password,artist_name,dob,role FROM users WHERE is_active = 1";
 			con = ConnectionUtil.getConnection();
 			ps = con.prepareStatement(query);
 			rs = ps.executeQuery();
@@ -83,7 +83,7 @@ public class UserDAO implements UserInterface {
 				ResultSet rs = null;
 
 				try {
-					String query = "Select * From users Where email = ? AND is_active = 1";
+					String query = "SELECT email FROM users WHERE email = ? AND is_active = 1";
 					conn = ConnectionUtil.getConnection();
 					pre = conn.prepareStatement(query);
 					pre.setString(1, email);
@@ -105,6 +105,7 @@ public class UserDAO implements UserInterface {
 	 * @param newUser object
 	 * @throws PersistanceException 
 	 */
+			
 	public void create(UserEntity newUser) throws PersistanceException {
 		Connection con = null;
 		PreparedStatement ps = null;
@@ -208,7 +209,7 @@ public class UserDAO implements UserInterface {
 		UserEntity user = null;
 		
 		try {
-			String query = "SELECT * FROM users WHERE is_active = 1  AND id = ? ";
+			String query = "SELECT id,name,artist_name,is_active,email,password,dob FROM users WHERE is_active = 1  AND id = ? ";
 			con = ConnectionUtil.getConnection();
 			ps = con.prepareStatement(query);
 			ps.setInt(1, id);
@@ -264,7 +265,7 @@ public class UserDAO implements UserInterface {
 		ResultSet rs = null;
 		UserEntity user = null;
 		try {
-			String query = "SELECT * FROM users WHERE is_active = 1 AND artist_name = ?";
+			String query = "SELECT id,name,email,password,is_active,artist_name,dob FROM users WHERE is_active = 1 AND artist_name = ?";
 			conn = ConnectionUtil.getConnection();
 			ps = conn.prepareStatement(query);
 			ps.setString(1, artistName);
@@ -282,7 +283,7 @@ public class UserDAO implements UserInterface {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-			throw new RuntimeException();
+			throw new RuntimeException(e.getMessage());
 		} finally {
 			ConnectionUtil.close(conn, ps, rs);
 		}
@@ -300,7 +301,7 @@ public class UserDAO implements UserInterface {
 		ResultSet rs = null;
 		UserEntity user = null;
 		try {
-			String query = "SELECT * FROM users WHERE is_active = 1 AND email = ?";
+			String query = "SELECT id,name,email,password,is_active,artist_name,dob FROM users WHERE is_active = 1 AND email = ?";
 			conn = ConnectionUtil.getConnection();
 			ps = conn.prepareStatement(query);
 			ps.setString(1, email);
@@ -318,7 +319,7 @@ public class UserDAO implements UserInterface {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-			throw new RuntimeException();
+			throw new RuntimeException(e.getMessage());
 		} finally {
 			ConnectionUtil.close(conn, ps, rs);
 		}
