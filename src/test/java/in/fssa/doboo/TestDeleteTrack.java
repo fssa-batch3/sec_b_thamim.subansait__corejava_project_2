@@ -41,7 +41,7 @@ public class TestDeleteTrack {
 
 		TrackService trackService = new TrackService();
 		Exception exception = assertThrows(RuntimeException.class, () -> {
-			trackService.deleteTrack(10);
+			trackService.deleteTrack(100);
 		});
 
 		String expectedMessage = "track not found";

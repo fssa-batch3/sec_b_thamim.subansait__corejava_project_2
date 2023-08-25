@@ -45,7 +45,7 @@ public class TestCreateTrack {
 	public void testCreateTrackWithInValiduserId() {
 		TrackService trackService = new TrackService();
 		TrackEntity track = new TrackEntity();
-		track.setTrackName("popstar");
+		track.setTrackName("ewewq");
 		track.setTrackDetail("this is the basic details");
 		track.setScale("c minor");
 		track.setPrice(100);
@@ -53,7 +53,7 @@ public class TestCreateTrack {
 		track.setDaw("Fl");
 		track.setBpm(90);
 		Exception exception = assertThrows(RuntimeException.class, () -> {
-			trackService.createTrack(track,10);
+			trackService.createTrack(track,100);
 		});
 		String expectedMessage = "User ID does not exist";
 		String receivedMessage = exception.getMessage();

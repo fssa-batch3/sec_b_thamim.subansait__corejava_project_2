@@ -63,25 +63,26 @@ public class TrackDAO implements TrackInterface {
 	 */
 	
 	public void checkIdExists(int id) throws RuntimeException {
-		Connection con = null;
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-		try {
-			String query = "SELECT EXISTS (SELECT 1 FROM tracks WHERE is_active = 1 AND id = ?)";
-			con = ConnectionUtil.getConnection();
-			ps = con.prepareStatement(query);
-			ps.setInt(1, id);
-			rs = ps.executeQuery();
-			if (!rs.next()) {
-				throw new RuntimeException("track not found");
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new RuntimeException(e.getMessage());
-		}  finally {
-			ConnectionUtil.close(con, ps, rs);
-		}
+	    Connection con = null;
+	    PreparedStatement ps = null;
+	    ResultSet rs = null;
+	    try {
+	        String query = "SELECT EXISTS (SELECT 1 FROM tracks WHERE is_active = 1 AND id = ?)";
+	        con = ConnectionUtil.getConnection();
+	        ps = con.prepareStatement(query);
+	        ps.setInt(1, id);
+	        rs = ps.executeQuery();
+	        if (!rs.next() || rs.getInt(1) == 0) {
+	            throw new RuntimeException("track not found");
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        throw new RuntimeException(e.getMessage());
+	    } finally {
+	        ConnectionUtil.close(con, ps, rs);
+	    }
 	}
+
 	
 	/**
 	 * @param track object, userID

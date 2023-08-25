@@ -128,12 +128,14 @@ public class TestUpdateTrackDetails {
 		track.setGenre("rap");
 		track.setDaw("adobe");
 		track.setBpm(69);
+		track.setId(100);
 		
 		Exception exception = assertThrows(RuntimeException.class, () -> {
 			trackService.updateTrack(100, track);
 		});
 		String expectedMessage = "track not found";
 		String receivedMessage = exception.getMessage();
+		System.out.println(receivedMessage);
 		assertTrue(expectedMessage.equals(receivedMessage));
 		
 	}
@@ -157,6 +159,7 @@ public class TestUpdateTrackDetails {
 		});
 		String expectedMessage = "price cannot be less than zero or greater than 6000";
 		String receivedMessage = exception.getMessage();
+		System.out.println(receivedMessage);
 		assertTrue(expectedMessage.equals(receivedMessage));
 		
 	}

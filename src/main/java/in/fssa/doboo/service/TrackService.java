@@ -93,8 +93,9 @@ public class TrackService {
 			TrackPriceService productPriceService = new TrackPriceService();
 
 //			Vaidate id and product
-			TrackValidator.validate(track);
 			TrackValidator.isIdValid(userId);
+			TrackValidator.validate(track);
+			
 
 //			Update details
 			trackDao.update(userId, track);
