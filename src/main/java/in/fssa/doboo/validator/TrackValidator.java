@@ -55,5 +55,13 @@ public class TrackValidator {
             throw new ValidationException("Track name already exists for the user");
         }
 	}
+	
+	public static void isValidUser(int userId) throws ValidationException {
+		TrackDAO trackDAO = new TrackDAO();
+		 // Check if the user exists in the users table
+       if (!trackDAO.isUserExists(userId)) {
+           throw new ValidationException("User ID does not exist");
+       }
+	}
 
 }

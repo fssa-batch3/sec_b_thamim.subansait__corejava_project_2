@@ -136,6 +136,60 @@ public class TestGetAllTracks {
 		System.out.println(receivedMessage);
 		assertTrue(expectedMessage.equals(receivedMessage));
 	}
+	
+	@Test
+	public void testGetTrackByTrackId() {
+
+		TrackService trackService = new TrackService();
+
+		assertDoesNotThrow(() -> {
+		TrackEntity track = trackService.findByTrackId(3);
+		System.out.println(track);
+		});
+		}
+		
+		@Test
+		public void testGetTrackByUserId() {
+
+			TrackService trackService = new TrackService();
+
+			assertDoesNotThrow(() -> {
+			Set<TrackEntity> track = trackService.findTracksByUserId(17);
+			System.out.println(track);
+			});	
+	}
+		
+		@Test
+		public void testGetTrackByinvalidUserId() {
+
+			TrackService trackService = new TrackService();
+
+			Exception exception = assertThrows(RuntimeException.class, () -> {
+				Set<TrackEntity> track = trackService.findTracksByUserId(0);
+				System.out.println(track);;
+			});
+
+			String expectedMessage = "Id can't be less than or equal to zero";
+			String receivedMessage = exception.getMessage();
+			System.out.println(receivedMessage);
+			assertTrue(expectedMessage.equals(receivedMessage));
+	}
+		
+		@Test
+		public void testGetTrackByinvalidUserId2() {
+
+			TrackService trackService = new TrackService();
+
+			Exception exception = assertThrows(RuntimeException.class, () -> {
+				Set<TrackEntity> track = trackService.findTracksByUserId(100);
+				System.out.println(track);;
+			});
+
+			String expectedMessage = "User ID does not exist";
+			String receivedMessage = exception.getMessage();
+			System.out.println(receivedMessage);
+			assertTrue(expectedMessage.equals(receivedMessage));
+	}
 
 
 }

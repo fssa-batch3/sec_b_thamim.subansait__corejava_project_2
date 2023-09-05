@@ -104,4 +104,31 @@ public class TrackPriceDAO {
 		}
 		return updateDate;
 	}
+	
+	public int getPrice(int trackId) throws RuntimeException  {
+
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		int productPrice = 0;
+
+		try {
+			String query = "SELECT price FROM track_prices WHERE track_id = ? AND end_date IS NULL";
+			con = ConnectionUtil.getConnection();
+			ps = con.prepareStatement(query);
+			ps.setInt(1, trackId);
+			rs = ps.executeQuery();
+
+			if (rs.next()) {
+				productPrice = rs.getInt("price");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new RuntimeException(e.getMessage());
+		} finally {
+			ConnectionUtil.close(con, ps, rs);
+		}
+		return productPrice;
+	}
 }

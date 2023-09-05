@@ -6,11 +6,14 @@ import java.util.Set;
 import in.fssa.doboo.dao.TrackDAO;
 import in.fssa.doboo.dao.UserDAO;
 import in.fssa.doboo.exception.NoTrackFoundException;
+import in.fssa.doboo.exception.PersistanceException;
 import in.fssa.doboo.exception.ValidationException;
 import in.fssa.doboo.model.TrackEntity;
 import in.fssa.doboo.model.UserEntity;
 import in.fssa.doboo.util.StringUtil;
+import in.fssa.doboo.validator.CheckId;
 import in.fssa.doboo.validator.TrackValidator;
+import in.fssa.doboo.validator.UserValidator;
 
 public class TrackService {
 
@@ -79,13 +82,13 @@ public class TrackService {
 	}
 	/**
 	 * 
-	 * @param userId
+	 * @param trackId
 	 * @param track
 	 * @throws ValidationException
 	 * @throws RuntimeException
 	 */
 
-	public void updateTrack(int userId, TrackEntity track) throws ValidationException, RuntimeException {
+	public void updateTrack(int trackId, TrackEntity track) throws ValidationException, RuntimeException {
         
 		Timestamp d = null;
 		try {
@@ -93,14 +96,14 @@ public class TrackService {
 			TrackPriceService productPriceService = new TrackPriceService();
 
 //			Vaidate id and product
-			TrackValidator.isIdValid(userId);
+			TrackValidator.isIdValid(trackId);
 			TrackValidator.validate(track);
 			
 
 //			Update details
-			trackDao.update(userId, track);
-			d = productPriceService.getTrackByDate(userId);
-			productPriceService.updateTrackPrice(d, userId, track.getPrice());
+			trackDao.update(trackId, track);
+			d = productPriceService.getTrackByDate(trackId);
+			productPriceService.updateTrackPrice(d, trackId, track.getPrice());
 
 		} catch (ValidationException e) {
 			throw new RuntimeException(e.getMessage());
@@ -163,6 +166,41 @@ public class TrackService {
 	            e.printStackTrace();
 	            throw new RuntimeException(e.getMessage());
 	        }
+	    }
+	    
+	    /**
+		 * 
+		 * @param id
+		 * @return
+		 * @throws ValidationException
+		 */
+		public TrackEntity findByTrackId(int id) throws ValidationException, PersistanceException,RuntimeException {
+			TrackValidator.isIdValid(id);
+			TrackDAO trackDAO = new TrackDAO();
+			TrackPriceService trackPriceService = new TrackPriceService();
+			TrackEntity track = trackDAO.findById(id);
+			int price = trackPriceService.getTrackPrice(id);
+			track.setPrice(price);
+			return track;
+		}
+		/**
+		 * 
+		 * @param userId
+		 * @return
+		 * @throws RuntimeException
+		 */
+		
+		public Set<TrackEntity> findTracksByUserId(int userId) throws RuntimeException  {
+	        	try {
+					CheckId.validateId(userId);
+					TrackValidator.isValidUser(userId);
+					return trackDAO.findTracksByUserId(userId);
+					
+				} catch (ValidationException | NoTrackFoundException e) {
+					e.printStackTrace();
+					throw new RuntimeException(e.getMessage());
+				}
+	        	
 	    }
 	
 

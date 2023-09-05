@@ -99,6 +99,36 @@ public class UserDAO implements UserInterface {
 					ConnectionUtil.close(conn, pre, rs);
 				}
 			}
+			// for getting password for the email
+			
+			public UserEntity logIn(String email) throws PersistanceException{
+				Connection conn = null;
+				PreparedStatement pre = null;
+				ResultSet rs = null;
+				UserEntity user = null;
+				try {
+					String query = "SELECT id,email,password FROM users WHERE email = ? AND is_active = 1";
+					conn = ConnectionUtil.getConnection();
+					pre = conn.prepareStatement(query);
+					pre.setString(1, email);
+					rs = pre.executeQuery();
+					if (rs.next()) {
+						user = new UserEntity();
+						user.setId(rs.getInt("id"));
+						user.setPassword(rs.getString("password"));
+						user.setEmail(rs.getString("email"));
+					}else {
+						throw new PersistanceException("email doesn't exits");
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+					System.out.println(e.getMessage());
+					throw new PersistanceException(e.getMessage());
+				} finally {
+					ConnectionUtil.close(conn, pre, rs);
+				}
+				return user;
+			}
 	
 	// create Method for user to ad record to the database.
 	/**

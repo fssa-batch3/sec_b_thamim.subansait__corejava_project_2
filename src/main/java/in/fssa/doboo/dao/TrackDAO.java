@@ -260,9 +260,44 @@ public class TrackDAO implements TrackInterface {
 	// this 
 	@Override
 	public TrackEntity findById(int id) {
+	    Connection con = null;
+	    PreparedStatement ps = null;
+	    ResultSet rs = null;
+	    TrackEntity track = null;
 
-		return null;
+	    try {
+	        String query = "SELECT id, bpm, track_name, track_detail, daw, genre, scale FROM tracks WHERE is_active = 1 AND id = ?";
+	        con = ConnectionUtil.getConnection();
+	        ps = con.prepareStatement(query);
+
+	        ps.setInt(1, id);
+	        rs = ps.executeQuery();
+
+	        if (rs.next()) {
+	            track = new TrackEntity();
+	            track.setId(rs.getInt("id"));
+	            track.setTrackName(rs.getString("track_name"));
+	            track.setTrackDetail(rs.getString("track_detail"));
+	            track.setScale(rs.getString("scale"));
+	            track.setGenre(rs.getString("genre"));
+	            track.setDaw(rs.getString("daw"));
+	            track.setBpm(rs.getInt("bpm"));
+	        }
+
+	        if (track == null) {
+	            throw new NoTrackFoundException("No track has been found with the given ID");
+	        }
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        throw new RuntimeException(e.getMessage());
+	    } finally {
+	        ConnectionUtil.close(con, ps, rs);
+	    }
+
+	    return track;
 	}
+
 
 	/**
 	 * @param track name
@@ -363,6 +398,47 @@ public class TrackDAO implements TrackInterface {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public Set<TrackEntity> findTracksByUserId(int userId) {
+	    Connection con = null;
+	    PreparedStatement ps = null;
+	    ResultSet rs = null;
+	    Set<TrackEntity> tracks = new HashSet<>();
+
+	    try {
+	        String query = "SELECT * FROM tracks WHERE user_id = ? AND is_active = 1";
+	        con = ConnectionUtil.getConnection();
+	        ps = con.prepareStatement(query);
+
+	        ps.setInt(1, userId);
+	        rs = ps.executeQuery();
+
+	        while (rs.next()) {
+	            TrackEntity track = new TrackEntity();
+	            track.setId(rs.getInt("id"));
+	            track.setTrackName(rs.getString("track_name"));
+	            track.setTrackDetail(rs.getString("track_detail"));
+	            track.setScale(rs.getString("scale"));
+	            track.setGenre(rs.getString("genre"));
+	            track.setDaw(rs.getString("daw"));
+	            track.setBpm(rs.getInt("bpm"));
+
+	            tracks.add(track);
+	        }
+	        if (tracks.isEmpty()) {
+	            throw new NoTrackFoundException("No tracks found for the user");
+	        }
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        throw new RuntimeException(e.getMessage());
+	    } finally {
+	        ConnectionUtil.close(con, ps, rs);
+	    }
+	    return tracks;
+	}
+
+	
 
 
 }

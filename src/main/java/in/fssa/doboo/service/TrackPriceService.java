@@ -63,4 +63,18 @@ public void updateTrackPrice(Timestamp upateDate, int trackId, int price) throws
 			throw new RuntimeException(e.getMessage());	
 		}
 	}
+
+public int getTrackPrice(int trackId)throws RuntimeException {
+	int price;
+    try {
+    	TrackPriceDAO trackPriceDAO = new TrackPriceDAO();
+        price = trackPriceDAO.getPrice(trackId);
+    } catch (RuntimeException e) {
+        e.printStackTrace();
+        throw new RuntimeException(e.getMessage());
+    }
+    return price;
+}
+
+
 }

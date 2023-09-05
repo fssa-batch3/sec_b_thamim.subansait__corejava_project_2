@@ -34,6 +34,19 @@ public class UserService {
 
 		return userList;
 	}
+	public UserEntity Login(String email) throws ValidationException,PersistanceException {
+		UserValidator.validateEmail(email);
+		UserEntity user = null;
+		try {
+			user = new UserEntity(); 
+			user = userDAO.logIn(email);
+		} catch (PersistanceException e) {
+			e.printStackTrace();
+			throw new RuntimeException(e.getMessage());
+		}
+		
+		return user;
+	}
 	/**
 	 * 
 	 * @param newUser
