@@ -6,48 +6,43 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
-import in.fssa.doboo.exception.ValidationException;
-import in.fssa.doboo.service.TrackService;
-import in.fssa.doboo.service.UserService;
+import in.fssa.doboo.service.AssestService;
 
-public class TestDeleteTrack {
+public class TestFindAsset {
+	
 	@Test
-	public void testDeleteTrackWithValidInput() {
+	public void testFindAssestByValidTrackId() {
 
-		TrackService trackService = new TrackService();
+		AssestService assetService = new AssestService();
 
 		assertDoesNotThrow(() -> {
-			trackService.deleteTrack(2);
+			System.out.println(assetService.findByTrackId(13));
 		});
 	}
 
-	// Id is Invalid
 	@Test
-	public void testDeleteUserWithInvalidId() {
+	public void testFindAssestByInValidTrackId() {
 
-		TrackService trackService = new TrackService();
+		AssestService assetService = new AssestService();
 		Exception exception = assertThrows(RuntimeException.class, () -> {
-			trackService.deleteTrack(0);
+			assetService.findByTrackId(100);
 		});
-
-		String expectedMessage = "id is less than zero";
-		String receivedMessage = exception.getMessage();
-		assertTrue(expectedMessage.equals(receivedMessage));
-	}
-	
-	// Id check
-	@Test
-	public void testUserCheckIdPresent() {
-
-		TrackService trackService = new TrackService();
-		Exception exception = assertThrows(RuntimeException.class, () -> {
-			trackService.deleteTrack(100);
-		});
-
 		String expectedMessage = "track not found";
 		String receivedMessage = exception.getMessage();
 		System.out.println(receivedMessage);
 		assertTrue(expectedMessage.equals(receivedMessage));
 	}
+	
+	@Test
+	public void testFindAssestByInValidTrackId2() {
 
+		AssestService assetService = new AssestService();
+		Exception exception = assertThrows(RuntimeException.class, () -> {
+			assetService.findByTrackId(0);
+		});
+		String expectedMessage = "id is less than zero";
+		String receivedMessage = exception.getMessage();
+		System.out.println(receivedMessage);
+		assertTrue(expectedMessage.equals(receivedMessage));
+	}
 }

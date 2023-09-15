@@ -21,7 +21,7 @@ public class UserValidator {
 	
 	private static final String NAME_PATTERN = "^[A-Za-z][A-Za-z\\\\s]*$";
 	private static final String EMAIL_PATTERN = "^[a-zA-Z0-9]+([a-zA-Z0-9_+\\-\\. ]*[a-zA-Z0-9]+)?@[a-zA-Z0-9]+([a-zA-Z0-9\\-\\.]*[a-zA-Z0-9])?\\.[a-zA-Z]{2,}$";
-	private static final String PASSWORD_PATTERN = "(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,}";
+	private static final String PASSWORD_PATTERN = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,24}$";
 	/**
 	 * 
 	 * @param user
@@ -35,6 +35,7 @@ public class UserValidator {
 		// this is for age below 16 years method
 		
 		String date = user.getDob();
+		System.out.println(date);
 		DateTimeFormatter formatDate =DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		LocalDate formattedDate = LocalDate.parse(date,formatDate);
 		

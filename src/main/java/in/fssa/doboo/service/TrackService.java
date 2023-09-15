@@ -8,6 +8,7 @@ import in.fssa.doboo.dao.UserDAO;
 import in.fssa.doboo.exception.NoTrackFoundException;
 import in.fssa.doboo.exception.PersistanceException;
 import in.fssa.doboo.exception.ValidationException;
+import in.fssa.doboo.model.Assest;
 import in.fssa.doboo.model.TrackEntity;
 import in.fssa.doboo.model.UserEntity;
 import in.fssa.doboo.util.StringUtil;
@@ -27,10 +28,18 @@ public class TrackService {
 	/**
 	 * 
 	 * @return
+	 * @throws PersistanceException 
 	 */
-	public Set<TrackEntity> getAllTracks() {
-
+	public Set<TrackEntity> getAllTracks() throws PersistanceException {
+		
 		Set<TrackEntity> trackList = trackDAO.findAll();
+		for(TrackEntity tracks :trackList ) {
+			AssestService assestService = new AssestService();
+			Assest asset = assestService.findByTrackId(tracks.getId());
+			tracks.setImageUrl(asset.getImageUrl());
+			tracks.setAudioUrl(asset.getAudioUrl());
+			System.out.println(tracks);
+		}
 
 		return trackList;
 	}
@@ -40,6 +49,7 @@ public class TrackService {
 	 * @param userId
 	 * @throws ValidationException
 	 * @throws RuntimeException
+	 * @throws PersistanceException 
 	 */
 	
 	/*
@@ -52,7 +62,7 @@ public class TrackService {
 	 * 6. track scale
 	 * */
 
-	public void createTrack(TrackEntity track, int userId) throws ValidationException, RuntimeException {
+	public void createTrack(TrackEntity track, int userId) throws ValidationException, RuntimeException{
 
 		int generatedId = -1;
 		Timestamp d = null;
@@ -62,6 +72,7 @@ public class TrackService {
 			
 			TrackDAO trackDAO = new TrackDAO();
 			TrackPriceService trackPriceService = new TrackPriceService();
+			AssestService assestService = new AssestService();
 			
 			// validate the track object
 			
@@ -72,6 +83,10 @@ public class TrackService {
 			generatedId = trackDAO.createTrack(track, userId);
 			d = trackPriceService.getTrackByDate(generatedId);
 			trackPriceService.createTrackPrice(d, generatedId, track.getPrice());
+			Assest asset = new Assest();
+			asset.setImageUrl(track.getImageUrl());
+			asset.setAudioUrl(track.getAudioUrl());
+			assestService.createAssest(asset, generatedId);
 
 		} catch (ValidationException e) {
 			throw new RuntimeException(e.getMessage());
@@ -79,7 +94,11 @@ public class TrackService {
 		 catch (RuntimeException e) {
 				throw new RuntimeException(e.getMessage());
 			}
+		catch (PersistanceException e) {
+			throw new RuntimeException(e.getMessage());
+		}
 	}
+	
 	/**
 	 * 
 	 * @param trackId
@@ -168,6 +187,25 @@ public class TrackService {
 	        }
 	    }
 	    
+	    public String findAtirstNameByTrackId(int trackId) throws RuntimeException, PersistanceException {
+	    	String artistName = null;
+	    	try {
+	        	
+	        	TrackValidator.isIdValid(trackId);
+	        	TrackDAO trackDAO = new TrackDAO();
+	        	artistName = trackDAO.getArtistNameForTrackId(trackId);
+	        }
+	        catch (ValidationException e) {
+	            e.printStackTrace();
+	            throw new RuntimeException(e.getMessage());
+	        }
+	        catch (NoTrackFoundException e) {
+	            e.printStackTrace();
+	            throw new RuntimeException(e.getMessage());
+	        }
+	    	return artistName;
+	    }
+	    
 	    /**
 		 * 
 		 * @param id
@@ -179,8 +217,13 @@ public class TrackService {
 			TrackDAO trackDAO = new TrackDAO();
 			TrackPriceService trackPriceService = new TrackPriceService();
 			TrackEntity track = trackDAO.findById(id);
+			AssestService assestService = new AssestService();
+			Assest asset = new Assest();
+			asset=assestService.findByTrackId(id);
 			int price = trackPriceService.getTrackPrice(id);
 			track.setPrice(price);
+			track.setImageUrl(asset.getImageUrl());
+			track.setAudioUrl(asset.getAudioUrl());
 			return track;
 		}
 		/**

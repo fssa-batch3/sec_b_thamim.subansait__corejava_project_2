@@ -23,11 +23,11 @@ public class TestCreateUser {
 			UserEntity newUser = new UserEntity();
 			String randomString = value.generateRandomString(8);
 			newUser.setEmail(randomString+"@" +"gmail.com");
-			newUser.setName("Inba");
+			newUser.setName("ajun");
 			newUser.setArtistName("thamimtommy");
 			newUser.setDob("2003-11-08");
 			newUser.setRole("seller");
-			newUser.setPassword("Inba123098");
+			newUser.setPassword("Inba@8973");
 			assertDoesNotThrow(() -> {
 				userService.createUser(newUser);
 			});
@@ -216,7 +216,7 @@ public class TestCreateUser {
 			public void testCreateUserEmailCheck() {
 				UserService userService = new UserService();
 				UserEntity newUser = new UserEntity();
-				newUser.setEmail("thamim@8973.com");
+				newUser.setEmail("kumar@gmail.com");
 				newUser.setName("Akil");
 				newUser.setArtistName("thamimtommy");
 				newUser.setDob("2003-11-08");

@@ -12,6 +12,7 @@ import javax.management.RuntimeErrorException;
 
 import in.fssa.doboo.interfaces.TrackInterface;
 import in.fssa.doboo.exception.NoTrackFoundException;
+import in.fssa.doboo.exception.PersistanceException;
 import in.fssa.doboo.exception.ValidationException;
 import in.fssa.doboo.model.TrackEntity;
 import in.fssa.doboo.util.ConnectionUtil;
@@ -189,6 +190,35 @@ public class TrackDAO implements TrackInterface {
 	    }
 
 	    return res; // Default to false if an exception occurred
+	}
+
+	public String getArtistNameForTrackId(int trackId) throws PersistanceException {
+	    Connection con = null;
+	    PreparedStatement ps = null;
+	    ResultSet rs = null;
+	    String artistName = null;
+
+	    try {
+	        String query = "SELECT users.artist_name " +
+	                       "FROM tracks " +
+	                       "INNER JOIN users ON tracks.user_id = users.id " +
+	                       "WHERE tracks.id = ?";
+	        con = ConnectionUtil.getConnection();
+	        ps = con.prepareStatement(query);
+	        ps.setInt(1, trackId);
+	        rs = ps.executeQuery();
+
+	        if (rs.next()) {
+	            artistName = rs.getString(1); // Retrieve the artist name for the given trackId
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        throw new PersistanceException(e.getMessage());
+	    } finally {
+	        ConnectionUtil.close(con, ps, rs);
+	    }
+
+	    return artistName;
 	}
 
 

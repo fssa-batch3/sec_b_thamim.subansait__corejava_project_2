@@ -45,7 +45,7 @@ public class TestGetAllTracks {
 		TrackService trackService = new TrackService();
 
 		assertDoesNotThrow(() -> {
-			System.out.println(trackService.findMatchTrackByName("baby"));
+			System.out.println(trackService.findMatchTrackByName("Say it Right"));
 		});
 	}
 	
@@ -147,6 +147,18 @@ public class TestGetAllTracks {
 		System.out.println(track);
 		});
 		}
+	
+	@Test
+	public void testArtistNameByTrackId() {
+
+		TrackService trackService = new TrackService();
+
+		assertDoesNotThrow(() -> {
+		String ArtistName = trackService.findAtirstNameByTrackId(13);
+		System.out.println(ArtistName);
+		});
+		}
+		
 		
 		@Test
 		public void testGetTrackByUserId() {

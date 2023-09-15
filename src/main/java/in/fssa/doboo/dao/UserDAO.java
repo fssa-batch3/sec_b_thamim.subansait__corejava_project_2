@@ -107,7 +107,7 @@ public class UserDAO implements UserInterface {
 				ResultSet rs = null;
 				UserEntity user = null;
 				try {
-					String query = "SELECT id,email,password FROM users WHERE email = ? AND is_active = 1";
+					String query = "SELECT id,email,password,role FROM users WHERE email = ? AND is_active = 1";
 					conn = ConnectionUtil.getConnection();
 					pre = conn.prepareStatement(query);
 					pre.setString(1, email);
@@ -117,6 +117,7 @@ public class UserDAO implements UserInterface {
 						user.setId(rs.getInt("id"));
 						user.setPassword(rs.getString("password"));
 						user.setEmail(rs.getString("email"));
+						user.setRole(rs.getString("role"));
 					}else {
 						throw new PersistanceException("email doesn't exits");
 					}
@@ -165,6 +166,7 @@ public class UserDAO implements UserInterface {
 			ConnectionUtil.close(con, ps, rs);
 		}
 		
+		
 
 	}
 	/**
@@ -186,6 +188,32 @@ public class UserDAO implements UserInterface {
 			
 		   ps.executeUpdate();
 			System.out.println("User details is successfully updated");
+			
+		}catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+			throw new PersistanceException(e.getMessage());
+		}
+		finally {
+			ConnectionUtil.close(con, ps);
+		}
+		
+		}
+	
+	public void setArtistNameAndRole(int userId, String ArtistName ) throws PersistanceException {
+		Connection con = null;
+		PreparedStatement ps = null;		
+
+		try {
+			String query = "UPDATE users set artist_name = ?,role = ? WHERE is_active = 1 AND id = ?";
+			con = ConnectionUtil.getConnection();
+			ps = con.prepareStatement(query);
+			ps.setString(1,ArtistName);
+			ps.setString(2, "seller");
+			ps.setInt(3,userId);
+			
+		   ps.executeUpdate();
+			System.out.println("User ArtistName is successfully Set");
 			
 		}catch (SQLException e) {
 			e.printStackTrace();

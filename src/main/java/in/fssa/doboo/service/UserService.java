@@ -88,7 +88,14 @@ public class UserService {
 		UserValidator.validateId(id);
 		UserValidator.validate(updateUser);
 		UserValidator.checkIdExists(id);
-		UserValidator.validateArtist(updateUser.getArtistName());
+		
+		// I commented this line for the buyer user update because when user logged as buyer there will no artist name
+		
+		
+//		UserValidator.validateArtist(updateUser.getArtistName());
+		
+		
+		// end of that artist name
 //
 //		if (updateUser.getName() != null) {
 //			UserValidator.validateName(updateUser.getName());
@@ -103,6 +110,25 @@ public class UserService {
 			userDAO.update(id, updateUser);
 		} catch (PersistanceException e) {
 			e.printStackTrace();
+		}
+	}
+	/**
+	 * 
+	 * @param id
+	 * @param artistName
+	 * @throws ValidationException
+	 */
+	public void setArtistNameAndRole(int id, String artistName) throws ValidationException {
+		UserValidator.validateId(id);
+		UserValidator.checkIdExists(id);
+		
+		UserDAO userDAO = new UserDAO();
+
+		try {
+			userDAO.setArtistNameAndRole(id, artistName);
+		} catch (PersistanceException e) {
+			e.printStackTrace();
+			throw new ServiceException(e.getMessage());
 		}
 	}
 	/**
