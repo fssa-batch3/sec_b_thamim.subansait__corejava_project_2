@@ -13,6 +13,13 @@ public class Track implements Comparable<Track>  {
 	private boolean isActive;
 	private String imageUrl;
 	private String audioUrl;
+	private String artistName;
+	public String getArtistName() {
+		return artistName;
+	}
+	public void setArtistName(String artistName) {
+		this.artistName = artistName;
+	}
 	public String getImageUrl() {
 		return imageUrl;
 	}
@@ -85,7 +92,7 @@ public class Track implements Comparable<Track>  {
 	@Override
 	public String toString() {
 		return "Track [id=" + id + ", TrackName=" + TrackName + ", TrackDetail=" + TrackDetail + ", bpm=" + bpm
-				+ ", daw=" + daw + ", genre=" + genre + ", scale=" + scale+", price=" + price+ ", isActive=" + isActive +  ", imageUrl="+ imageUrl+ ", audioUrl"+ audioUrl+"]";
+				+ ", daw=" + daw + ", genre=" + genre + ", scale=" + scale+", price=" + price+ ", isActive=" + isActive +  ", imageUrl="+ imageUrl+ ", audioUrl"+ audioUrl+", artistName="+artistName+"]";
 	}
 	
 	@Override
