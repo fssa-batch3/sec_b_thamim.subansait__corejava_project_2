@@ -66,6 +66,40 @@ public class ArtistService {
     	return artists;
     }
     
+    public void updateArtistDetails(Artist artist,int userId) throws ServiceException, ValidationException {
+        try {
+        	
+        	
+        	ArtistValidator.validate(artist, userId);
+        	ArtistValidator.validateUser(userId);
+
+        	if(artist.getInsta()!=null) {
+        	ArtistValidator.validUrl(artist.getInsta());
+        	}
+        	if(artist.getFacebook()!=null) {
+            	ArtistValidator.validUrl(artist.getFacebook());
+            	}
+        	if(artist.getLinkedln()!=null) {
+            	ArtistValidator.validUrl(artist.getLinkedln());
+            	}
+        	if(artist.getSpotify()!=null) {
+            	ArtistValidator.validUrl(artist.getSpotify());
+            	}
+        	
+        	artistDAO.updateArtistDetails(artist,userId);
+        } catch (PersistanceException | ValidationException e) {
+            throw new ServiceException(e.getMessage());
+        }
+    }
+    
+    public Artist findArtistByUserId(int userId) throws ServiceException {
+        try {
+        	ArtistValidator.validateUser(userId);
+            return artistDAO.findArtistByUserId(userId);
+        } catch (PersistanceException | ValidationException e) {
+            throw new ServiceException(e.getMessage());
+        }
+    }
     
     
 }

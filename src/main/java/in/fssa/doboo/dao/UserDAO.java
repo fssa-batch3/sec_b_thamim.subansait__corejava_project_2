@@ -4,12 +4,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Base64;
 import java.util.HashSet;
 import java.util.Set;
 
 import in.fssa.doboo.model.UserEntity;
 import in.fssa.doboo.util.ConnectionUtil;
-
+import in.fssa.doboo.util.PasswordEncryptUtil;
 import in.fssa.doboo.model.User;
 import in.fssa.doboo.interfaces.UserInterface;
 import in.fssa.doboo.exception.PersistanceException;
@@ -49,7 +50,7 @@ public class UserDAO implements UserInterface {
 				user.setName(rs.getString("name"));
 				user.setActive(rs.getBoolean("is_active"));
 				user.setEmail(rs.getString("email"));
-				user.setPassword(rs.getString("password"));
+//				user.setPassword(rs.getString("password"));
 				user.setArtistName(rs.getString("artist_name"));
 				user.setDob(rs.getString("dob"));
 				user.setRole(rs.getString("role"));
@@ -148,7 +149,10 @@ public class UserDAO implements UserInterface {
 			con = ConnectionUtil.getConnection();
 			ps = con.prepareStatement(query);
 			ps.setString(1,newUser.getName());
-			ps.setString(2,newUser.getPassword());
+			
+			// this part is for the to encrypt the password using base64 in java default class
+	        String hashPassword = PasswordEncryptUtil.encrypt(newUser.getPassword());
+			ps.setString(2, hashPassword);
 			ps.setString(3,newUser.getDob());
 			ps.setString(4,newUser.getEmail());
 			ps.setString(5,newUser.getArtistName());
@@ -178,13 +182,12 @@ public class UserDAO implements UserInterface {
 		PreparedStatement ps = null;		
 
 		try {
-			String query = "UPDATE users set name = ?,artist_name = ?,password=? WHERE is_active = 1 AND id = ?";
+			String query = "UPDATE users set name = ?,artist_name = ? WHERE is_active = 1 AND id = ?";
 			con = ConnectionUtil.getConnection();
 			ps = con.prepareStatement(query);
 			ps.setString(1,updatedUser.getName());
 			ps.setString(2,updatedUser.getArtistName());
-			ps.setString(3,updatedUser.getPassword());
-			ps.setInt(4,id);
+			ps.setInt(3,id);
 			
 		   ps.executeUpdate();
 			System.out.println("User details is successfully updated");
@@ -199,6 +202,37 @@ public class UserDAO implements UserInterface {
 		}
 		
 		}
+	
+	public void updatePassword(int id, String newPassword) throws PersistanceException {
+	    Connection con = null;
+	    PreparedStatement ps = null;
+
+	    try {
+	        String query = "UPDATE users SET password = ? WHERE is_active = 1 AND id = ?";
+	        con = ConnectionUtil.getConnection();
+	        ps = con.prepareStatement(query);
+	        String hashPassword = PasswordEncryptUtil.encrypt(newPassword);
+	        ps.setString(1, hashPassword);
+	        ps.setInt(2, id);
+
+	        int rowsUpdated = ps.executeUpdate();
+	        
+	        if (rowsUpdated > 0) {
+	            System.out.println("Password successfully updated");
+	        } else {
+	            System.out.println("User not found or password update failed");
+	            // Handle this case according to your application's requirements
+	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        System.out.println(e.getMessage());
+	        throw new PersistanceException(e.getMessage());
+	    } finally {
+	        ConnectionUtil.close(con, ps);
+	    }
+	}
+
 	
 	public void setArtistNameAndRole(int userId, String ArtistName ) throws PersistanceException {
 		Connection con = null;
@@ -276,12 +310,13 @@ public class UserDAO implements UserInterface {
 			if(rs.next()) {
 				user = new UserEntity();
 				user.setId(rs.getInt("id"));
+				user.setPassword(rs.getString("password"));
 				user.setName(rs.getString("name"));
 				user.setArtistName(rs.getString("artist_name"));
 				user.setActive(rs.getBoolean("is_active"));
 				user.setEmail(rs.getString("email"));
-				user.setPassword(rs.getString("password"));
 				user.setDob(rs.getString("dob"));
+
 			}
 		}catch (SQLException e) {
 			e.printStackTrace();
@@ -333,7 +368,7 @@ public class UserDAO implements UserInterface {
 				user.setId(rs.getInt("id"));
 				user.setName(rs.getString("name"));
 				user.setEmail(rs.getString("email"));
-				user.setPassword(rs.getString("password"));
+//				user.setPassword(rs.getString("password"));
 				user.setActive(rs.getBoolean("is_active"));
 				user.setArtistName(rs.getString("artist_name"));
 				user.setDob(rs.getString("dob"));
@@ -369,7 +404,7 @@ public class UserDAO implements UserInterface {
 				user.setId(rs.getInt("id"));
 				user.setName(rs.getString("name"));
 				user.setEmail(rs.getString("email"));
-				user.setPassword(rs.getString("password"));
+//				user.setPassword(rs.getString("password"));
 				user.setActive(rs.getBoolean("is_active"));
 				user.setArtistName(rs.getString("artist_name"));
 				user.setDob(rs.getString("dob"));

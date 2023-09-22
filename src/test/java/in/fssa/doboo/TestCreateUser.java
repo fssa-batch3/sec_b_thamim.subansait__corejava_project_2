@@ -21,13 +21,13 @@ public class TestCreateUser {
 		public void testCreateUserWithValidInput() {
 			UserService userService = new UserService();
 			UserEntity newUser = new UserEntity();
-			String randomString = value.generateRandomString(8);
-			newUser.setEmail(randomString+"@" +"gmail.com");
-			newUser.setName("ajun");
-			newUser.setArtistName("thamimtommy");
-			newUser.setDob("2003-11-08");
+//			String randomString = value.generateRandomString(8);
+			newUser.setEmail("thamimtommy123"+"@" +"gmail.com");
+			newUser.setName("thamim");
+			newUser.setArtistName("senson");
+			newUser.setDob("2004-11-08");
 			newUser.setRole("seller");
-			newUser.setPassword("Inba@8973");
+			newUser.setPassword("Alagu@1234");
 			assertDoesNotThrow(() -> {
 				userService.createUser(newUser);
 			});

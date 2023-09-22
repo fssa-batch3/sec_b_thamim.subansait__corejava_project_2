@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
+import org.mindrot.jbcrypt.BCrypt;
 
 import in.fssa.doboo.exception.ValidationException;
 import in.fssa.doboo.model.UserEntity;
@@ -19,8 +20,12 @@ public class TestLoginUser {
 		 
 		
 		assertDoesNotThrow(() -> { 
-			UserEntity user  = userService.Login("Kumar@gmail.com");
+			UserEntity user  = userService.Login("thamimtommy123@gmail.com");
+			if(!BCrypt.checkpw("Alagu@1234", user.getPassword())) {
+				throw new ValidationException("Incorrect Password");
+			}
 			System.out.println(user);
+			
 					}
 		);
 		

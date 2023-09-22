@@ -45,6 +45,40 @@ public class ArtistDAO {
 	    }
 	}
 	
+	public void updateArtistDetails(Artist artist,int userId) throws PersistanceException {
+	    Connection con = null;
+	    PreparedStatement ps = null;
+	    
+	    try {
+	        con = ConnectionUtil.getConnection();
+	        String query = "UPDATE artist SET type=?, bio=?, instagram=?, facebook=?, linkedln=?, spotify=?, artist_name=? WHERE user_id=?";
+	        ps = con.prepareStatement(query);
+	        ps.setString(1, ArtistType.tpye(artist.getType()));
+	        ps.setString(2, artist.getBio());
+	        ps.setString(3, artist.getInsta());
+	        ps.setString(4, artist.getFacebook());
+	        ps.setString(5, artist.getLinkedln());
+	        ps.setString(6, artist.getSpotify());
+	        ps.setString(7, artist.getArtistName());
+	        ps.setInt(8, userId);
+
+	        int rowsAffected = ps.executeUpdate();
+
+	        if (rowsAffected > 0) {
+	            System.out.println("Artist details updated successfully");
+	        } else {
+	            System.out.println("No changes made to the artist details");
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        System.out.println(e.getMessage());
+	        throw new PersistanceException(e.getMessage());
+	    } finally {
+	        ConnectionUtil.close(con, ps, null);
+	    }
+	}
+
+	
 	public Artist findArtistByUserId(int userId) throws PersistanceException {
 	    Connection con = null;
 	    PreparedStatement ps = null;
@@ -52,7 +86,7 @@ public class ArtistDAO {
 	    Artist artist = null;
 
 	    try {
-	        String query = "SELECT artist_id, type, artist_name, bio, insta, facebook, linkedln, spotify FROM artist WHERE userId = ?";
+	        String query = "SELECT id, type, artist_name, bio, instagram, facebook, linkedln, spotify FROM artist WHERE user_id = ?";
 	        con = ConnectionUtil.getConnection();
 	        ps = con.prepareStatement(query);
 	        ps.setInt(1, userId);
@@ -64,7 +98,7 @@ public class ArtistDAO {
 	            artist.setType(ArtistType.getType(rs.getString("type")));
 	            artist.setArtistName(rs.getString("artist_name"));
 	            artist.setBio(rs.getString("bio"));
-	            artist.setInsta(rs.getString("insta"));
+	            artist.setInsta(rs.getString("instagram"));
 	            artist.setFacebook(rs.getString("facebook"));
 	            artist.setLinkedln(rs.getString("linkedln"));
 	            artist.setSpotify(rs.getString("spotify"));

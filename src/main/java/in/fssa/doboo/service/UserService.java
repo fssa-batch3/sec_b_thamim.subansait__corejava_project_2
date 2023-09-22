@@ -67,6 +67,7 @@ public class UserService {
 	public void createUser(UserEntity newUser) throws ServiceException,ValidationException{
 		try {
 			UserValidator.validate(newUser);
+			UserValidator.validatePassword(newUser.getPassword());
 
 			UserDAO userDAO = new UserDAO();
 			userDAO.emailExists(newUser.getEmail());
@@ -110,6 +111,21 @@ public class UserService {
 			userDAO.update(id, updateUser);
 		} catch (PersistanceException e) {
 			e.printStackTrace();
+		}
+	}
+	
+	public void updatepassword(int id, String newPassword) throws ValidationException {
+		
+		UserValidator.validatePassword(newPassword);
+		UserValidator.checkIdExists(id);
+
+		UserDAO userDAO = new UserDAO();
+
+		try {
+			userDAO.updatePassword(id, newPassword);
+		} catch (PersistanceException e) {
+			e.printStackTrace();
+			throw new ServiceException(e.getMessage());
 		}
 	}
 	/**

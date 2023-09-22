@@ -52,11 +52,7 @@ public class UserValidator {
 		}
 		
 		validateName(user.getName());
-		validateEmail(user.getEmail());
-		validatePassword(user.getPassword());
-//		validateArtist(user.getArtistName());
-		
-		
+		validateEmail(user.getEmail());		
 	}
 		
 	// validate userName;
