@@ -49,7 +49,7 @@ public class TrackService {
 		}
 
 		return trackList;
-	}
+	}	
 	/**
 	 * 
 	 * @param track
@@ -80,9 +80,11 @@ public class TrackService {
 			TrackDAO trackDAO = new TrackDAO();
 			TrackPriceService trackPriceService = new TrackPriceService();
 			AssestService assestService = new AssestService();
-			
+			Assest asset = new Assest();
+			asset.setImageUrl(track.getImageUrl());
+			asset.setAudioUrl(track.getAudioUrl());
+			AssestValidator.validate(asset);
 			// validate the track object
-			
 			
 			TrackValidator.validate(track);
 			TrackValidator.validForCreation(track, userId);
@@ -90,9 +92,6 @@ public class TrackService {
 			generatedId = trackDAO.createTrack(track, userId);
 			d = trackPriceService.getTrackByDate(generatedId);
 			trackPriceService.createTrackPrice(d, generatedId, track.getPrice());
-			Assest asset = new Assest();
-			asset.setImageUrl(track.getImageUrl());
-			asset.setAudioUrl(track.getAudioUrl());
 			assestService.createAssest(asset, generatedId);
 
 		} catch (ValidationException e) {

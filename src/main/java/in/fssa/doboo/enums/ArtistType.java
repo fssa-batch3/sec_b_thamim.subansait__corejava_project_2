@@ -42,11 +42,11 @@ public enum ArtistType {
 	            case "bm":
 	                return "beatmakers";
 	            case "mme":
-	                return "beatmakers";
+	                return "mixmastereng";
 	            case "sin":
-	                return "beatmakers";
+	                return "singer";
 	            case "son":
-	                return "beatmakers";
+	                return "songwriter";
 	            default:
 	                throw new IllegalArgumentException("Invalid input string for UsedDuration: " + input);
 	        }

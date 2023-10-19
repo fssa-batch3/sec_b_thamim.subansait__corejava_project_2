@@ -26,7 +26,7 @@ public class ArtistValidator {
 		try {
 		AssestValidator.validateurl(url);
 		}catch(ValidationException e) {
-			throw new ValidationException("url is not valid");
+			throw new ValidationException("social link is wrong");
 		}
 	}
 	

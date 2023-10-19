@@ -368,6 +368,7 @@ public class TrackDAO implements TrackInterface {
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	        throw new RuntimeException(e.getMessage());
+	        
 	    } finally {
 	        ConnectionUtil.close(con, ps, rs);
 	    }

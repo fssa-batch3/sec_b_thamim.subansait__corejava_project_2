@@ -25,18 +25,16 @@ public class ArtistService {
         	ArtistValidator.validate(artist, userId);
         	ArtistValidator.validateUser(userId);
         	
-        	
-        	
-        	if(artist.getInsta()!=null) {
+        	if(!artist.getInsta().isEmpty()) {
         	ArtistValidator.validUrl(artist.getInsta());
         	}
-        	if(artist.getFacebook()!=null) {
+        	if(!artist.getFacebook().isEmpty()) {
             	ArtistValidator.validUrl(artist.getFacebook());
             	}
-        	if(artist.getLinkedln()!=null) {
+        	if(!artist.getLinkedln().isEmpty()) {
             	ArtistValidator.validUrl(artist.getLinkedln());
             	}
-        	if(artist.getSpotify()!=null) {
+        	if(!artist.getSpotify().isEmpty()) {
             	ArtistValidator.validUrl(artist.getSpotify());
             	}
        
@@ -73,16 +71,16 @@ public class ArtistService {
         	ArtistValidator.validate(artist, userId);
         	ArtistValidator.validateUser(userId);
 
-        	if(artist.getInsta()!=null) {
+        	if(!artist.getInsta().isEmpty()) {
         	ArtistValidator.validUrl(artist.getInsta());
         	}
-        	if(artist.getFacebook()!=null) {
+        	if(!artist.getFacebook().isEmpty()) {
             	ArtistValidator.validUrl(artist.getFacebook());
             	}
-        	if(artist.getLinkedln()!=null) {
+        	if(!artist.getLinkedln().isEmpty()) {
             	ArtistValidator.validUrl(artist.getLinkedln());
             	}
-        	if(artist.getSpotify()!=null) {
+        	if(!artist.getSpotify().isEmpty()) {
             	ArtistValidator.validUrl(artist.getSpotify());
             	}
         	

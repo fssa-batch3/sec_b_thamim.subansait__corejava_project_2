@@ -7,7 +7,6 @@ public interface UserInterface extends Base<UserEntity> {
 	
 	public abstract User findByEmailId(String email);
 	
-	
 	public abstract User findByArtistName(String artistName);
 
 

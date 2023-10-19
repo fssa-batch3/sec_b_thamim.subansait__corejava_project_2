@@ -20,14 +20,14 @@ public class TestCreateArtist {
 		ArtistService artistService = new ArtistService();
 		artist.setType("SongWriter");
 		artist.setBio("Hi there I'm popsmoke I'm a music Producer. You can connect with me in this platform");
-		artist.setArtistName("drake");
+		artist.setArtistName("OgMakeMoney");
 		artist.setFacebook(null);
 		artist.setInsta(null);
 		artist.setLinkedln(null);
 		artist.setSpotify("https://www.facebook.com/thamimtommy");
 
 		assertDoesNotThrow(() -> {
-			artistService.createArtist(artist, 32);
+			artistService.createArtist(artist, 1);
 		});
 	}
 
@@ -143,7 +143,7 @@ public class TestCreateArtist {
 		Exception exception = assertThrows(ValidationException.class, () -> {
 			artistService.createArtist(artist, 33);
 		});
-		String expectedMessage = "url is not valid";
+		String expectedMessage = "social link is wrong";
 		String receivedMessage = exception.getMessage();
 		System.out.println(receivedMessage);
 		assertTrue(expectedMessage.equals(receivedMessage));
